@@ -1,0 +1,32 @@
+body.fb {
+    background-color: #3b5998;
+}
+
+body.google {
+    background-color: #dd4b39;
+}
+
+.message {
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+    font-weight: normal;
+    text-align: center;
+    color: #fff;
+    margin: 50px;
+}
+
+.spinner {
+    position: absolute;
+    top: 45%;
+    display: block;
+    width: 100%;
+    height: 150px;
+}
+
+.spinner i {
+    color: #FFF;
+    margin: 0 auto;
+    position: relative;
+    left: 40%;
+    text-align: center;
+}
