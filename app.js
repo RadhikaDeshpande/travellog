@@ -22,6 +22,16 @@ jsonUtil      = new jsonUtil();
 jsonBuilder   = require(DEFS.DIR.JSON_BUILDER);  // Global Json Library Utility
 jBuilder      = new jsonBuilder();
 
+
+dbServer = 'openshift_mongo'
+config = dbConfig['openshift_mongo'];
+config = config.mongolab;
+connection_string = 'mongodb://' +config.username + ":" +
+                          config.password + "@" +
+                          config.host  + ':' +
+                          config.port + '/' +
+                          config.database;
+
 /* Need to research if its a good practice to do this*/
 // Global Domain handling utility
 domainHandler = require(DEFS.DIR.DOMAIN_HANDLER);

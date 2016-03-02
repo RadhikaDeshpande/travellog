@@ -5,8 +5,6 @@ var namma_auth = function() {
 
   // Setup Passport strategies. Return object not required.
   var nammaAuth  = require(DEFS.DIR.C_LOGIN_NAMMA_AUTH)(passport); // pass passport for configuration
-  var socialAuth = require(DEFS.DIR.C_LOGIN_SOCIAL_AUTH); // pass passport for configuration
-  socialAuth     = new socialAuth(passport);
   var deviceMgmtApi          = require(DEFS.DIR.API_HELPER_LOGIN_DEVICE_MANAGEMENT);
   var deviceMgmtApiObj       = new deviceMgmtApi();
 
@@ -81,17 +79,6 @@ var namma_auth = function() {
       SCUBE_LOG.info('Routes-Signup Action - Form Reload DeviceId'+deviceId);
     }
 
-    // Determine the requesting domain to figure out the right social config to use
-    if(DEFS.CONST.DOMAIN === DEFS.CONST.LOCALHOST || DEFS.CONST.LOCALHOST === '10.0.3.2') {
-      // Local App. Use social config for localhost fb/g+ apps
-      socialAuth.createFbStrategy(socialConfig.dev.fbAuth);
-      socialAuth.createGoogleStrategy(socialConfig.dev.googleAuth);
-    } else {
-      // Real Server App. Use social config for server fb/g+ apps
-      socialAuth.createFbStrategy(socialConfig.prd.fbAuth);
-      socialAuth.createGoogleStrategy(socialConfig.prd.googleAuth);
-    }
- 
     res.render('login.ejs', {
       message      : req.flash('loginMessage'),
       domain       : DEFS.CONST.DOMAIN_URL,  
