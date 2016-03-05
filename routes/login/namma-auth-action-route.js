@@ -1,13 +1,7 @@
 var namma_auth = function() {
 
-  var servicesLocations      = require(DEFS.DIR.SERVICES_LOCATION);
-  servicesLocations          = new servicesLocations();
-
   // Setup Passport strategies. Return object not required.
   var nammaAuth  = require(DEFS.DIR.C_LOGIN_NAMMA_AUTH)(passport); // pass passport for configuration
-  var deviceMgmtApi          = require(DEFS.DIR.API_HELPER_LOGIN_DEVICE_MANAGEMENT);
-  var deviceMgmtApiObj       = new deviceMgmtApi();
-
   /**********************signup-login-controllers-action-functions*****************/
 
   this.indexAction = function(req, res) {
