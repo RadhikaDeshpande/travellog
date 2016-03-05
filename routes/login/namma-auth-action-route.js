@@ -5,26 +5,13 @@ var namma_auth = function() {
   /**********************signup-login-controllers-action-functions*****************/
 
   this.indexAction = function(req, res) {
-    
-    //Parse and extract the required feilds sent from consumer app
-    if(req.query.consumer_app_data) {
 
-      var domain = dataParser.getDomain(req);
-      if(domain) {
-        // Set the domain to genymotion if req is from emulator
-        domainHandler.setDomain(domain);
-        SCUBE_LOG.info("In index action setting the domain to : "+ domain);
-      }
-      // App data is passed from the app, It contains domain, deviceId
-      // Passing it in the redirect
-      SCUBE_LOG.info("Redirecting to login with app data");
-      res.redirect('/login?consumer_app_data='+req.query.consumer_app_data);
+    if(req.session.passport.user) {
+      res.redirect('/home');
       return;
     }
-
-    //Simple redirect if no data is present
-    SCUBE_LOG.info("Redirecting to login without app data");
-    res.redirect('/login');
+    res.render('login.ejs');
+    return;
   }
 
   // ====== COMMON LOGIN ROUTES ======
@@ -32,53 +19,31 @@ var namma_auth = function() {
   // Show login form
   this.getLoginAction = function(req, res) {
 
-    // Used to store the device id for which the request is recvd
-    // This feild is populated in the Login form as a hidden feild
-    var deviceId;
-    var consumer_app_data;
-
-    SCUBE_LOG.info("In login action sessions is : ", req.session);
-
     // If the user has already logged in, proceed to home page
     // If data is present send the data in the redirect
     if(req.session.passport.user) {
-      if(req.query.consumer_app_data) {
-        SCUBE_LOG.info("In Get Login Action redirecting to Home with app data");
-        res.redirect('/home?consumer_app_data='+req.query.consumer_app_data);
-      } else {
-        SCUBE_LOG.info("In Get Login Action redirecting to Home without app data");
-        res.redirect('/home');
-      }
+      res.redirect('/home');
       return;
     }
-
-    //Parse and extract the required feilds sent from consumer app
-    if(req.query.consumer_app_data) {
-      consumer_app_data = req.query.consumer_app_data;
-      var domain = dataParser.getDomain(req);
-      if(domain) {
-        // Set the domain to genymotion if req is from emulator
-        // If its a request from prd then its a no-op for setDomain
-        domainHandler.setDomain(domain);
-        SCUBE_LOG.info("In Get Login action setting the domain to : "+ domain);
-      }
-      deviceId = dataParser.getDeviceId(req);
-      SCUBE_LOG.info("Routes-GetLogin Action: DeviceId : "+ deviceId);
-    } else {
-      //The redirect can be from error case, retrive it from flash data
-      domain = domainHandler.getDomain();
-      deviceId = req.flash("deviceId");
-      consumer_app_data = JSON.stringify({ 'domain' : 'domain' , 
-                      'deviceId': deviceId});
-      SCUBE_LOG.info('Routes-Signup Action - Form Reload DeviceId'+deviceId);
-    }
-
-    res.render('login.ejs', {
+    /*res.render('login-form.ejs', {
       message      : req.flash('loginMessage'),
       domain       : DEFS.CONST.DOMAIN_URL,  
       userDeviceId : deviceId,
       consumerAppData : consumer_app_data
-    }); // load login view
+    }); // load login view*/
+    res.render('login-form.ejs');
+    return;
+  }
+
+   this.signupAction = function(req, res) {
+
+    if(req.session.passport.user) {
+      res.redirect('/home');
+      return;
+    }
+
+    res.render('signup-form.ejs');
+    return;
   }
 
   // Scube Ready : Show home page.

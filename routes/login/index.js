@@ -18,6 +18,11 @@ app.get('/', function(req, res) {
 });
 
 /****************** namma /signup' **********************/
+app.get('/signup', function(req, res) {
+  namma_auth_obj.signupAction(req, res);
+});
+
+
 app.post('/signup', function(req, res, next) {
   passport.authenticate('local-signup', function(err, userObj, info) {
     
@@ -111,6 +116,10 @@ app.post('/resendUserValidateEmail', function(req, res) {
 });
 
 /****************** password management ******************/
+app.get('/forgotPwd', function(req,res) {
+  password_mgmt_obj.getForgotPwdAction(req, res);
+});
+
 app.post('/forgotPwd', function(req,res) {
   password_mgmt_obj.postForgotPwdAction(req, res);
 });

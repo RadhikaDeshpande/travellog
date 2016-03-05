@@ -4,7 +4,7 @@ var password_mgmt = function() {
   var passwordMgmtControllerObj   = new passwordMgmtController();
 
   this.getForgotPwdAction = function(req, res) {
-    res.render('forgot-password.ejs', { message: req.flash('forgotPwdMessage') });
+    res.render('login-forgot-pwd.ejs', { message: req.flash('forgotPwdMessage') });
   }
 
   this.postForgotPwdAction = function(req, res) {
