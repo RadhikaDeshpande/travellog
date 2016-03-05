@@ -103,51 +103,24 @@ var namma_auth = function() {
     // Hack to destroy social login session
 
     var info = {};
-    if(typeof req.query.consumer_app_data === 'undefined') {
-      res.send(JSON.stringify({ 'failure' : "Consumer app data not present for logout"}));
-      return;
-    }
     
     if(!req.session.passport.user){
       SCUBE_LOG.info("Logout Action : No valid session exists in logout action");
       res.redirect('/login');
       return;
     }
-    
-    info.userId = req.session.passport.user.user_id;
-    info.deviceId = dataParser.getDeviceId(req);
-    info.action = DEFS.CONST.SESSION_USER_LOGOUT;
-    
-    deviceMgmtApiObj.userDeviceLoginLogout(req, res, info, function(retVal) {
-      if(retVal === "failure") {
-        SCUBE_LOG.info("Device Mgmt Action : Device registration failure");
-        res.send(JSON.stringify({ 'failure' : "Device registration failure" }));
-        return;
-      }
 
-      SCUBE_LOG.info("Req session object before any logout ", req.session);
+    // destroy the session
+    req.session.destroy();
+    //SCUBE_LOG.info("Req session object After session destroy NAMMA ", req);
+    setTimeout(function() {
+      req.logout();
+      //SCUBE_LOG.info("Req session object After session logout ", req);
       
-      if(req.session.passport.user.isNammaUser !== 1) {
-        // Social login user 
-          req.logout();
-          SCUBE_LOG.info("Calling logout ", req);
-          res.redirect('/login');
-          return; 
-      } else { // Namma user
-        // Succesfully updated the device login table
-        // destroy the session
-        req.session.destroy();
-        //SCUBE_LOG.info("Req session object After session destroy NAMMA ", req);
-        setTimeout(function() {
-          req.logout();
-          //SCUBE_LOG.info("Req session object After session logout ", req);
-          
-          // device id is fetched from android by login/signup form
-          SCUBE_LOG.info("In logout action Redirecting to login");
-          res.redirect('/login');
-        }, 2000);
-      }
-    });
+      // device id is fetched from android by login/signup form
+      SCUBE_LOG.info("In logout action Redirecting to login");
+      res.redirect('/login');
+    }, 2000);
   }
 }
 module.exports =  namma_auth;

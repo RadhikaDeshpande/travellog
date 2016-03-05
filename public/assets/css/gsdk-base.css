@@ -1109,14 +1109,14 @@ input.ct-red + span.switch-left, input.ct-red + span + label + span.switch-right
 .blurred-container{
   position:relative;
   width:100%;
-  height:600px;
+  height:100%;
   top:0;
   left:0;
 }
 .blurred-container > .img-src{
     position:fixed;
     width:100%;
-    height:600px;
+    height:100%;
     background-repeat:no-repeat;
     background-size:cover;
     background-position: center center;
