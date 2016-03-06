@@ -21,15 +21,15 @@ var blogs = function() {
         _blogsByViewCount(req, res);
       break;
 
-      case DEFS.CONST.APIS_IMAGES_QUERY_CASE_BY_LOCATION:
+      case DEFS.CONST.APIS_BLOGS_QUERY_CASE_BY_LOCATION:
         _blogsByLocation(req, res);
       break;
 
-      case DEFS.CONST.APIS_IMAGES_QUERY_CASE_BY_LATEST_TIMESTAMP:
-        _blogsByTimeStamp(req, res);
+      case DEFS.CONST.APIS_BLOGS_QUERY_CASE_BY_TOP_LOCATION:
+        _blogsByTopLocation(req, res);
       break;
 
-      case DEFS.CONST.APIS_IMAGES_QUERY_CASE_BY_USER_NAME:
+      case DEFS.CONST.APIS_BLOGS_QUERY_CASE_BY_USER_NAME:
         _blogsByUserName(req, res);
       break;
 
@@ -64,9 +64,11 @@ var blogs = function() {
 
     location_name = req.query.location_name;
     // Call the helper object 
-    blogsApiHelperObj.searchBlogsByLocationName(req, res, searchArray, function(returnMsg, retData) {
+    blogsApiHelperObj.searchBlogsByLocationName(req, res, location_name, function(returnMsg, retData) {
       if(returnMsg === 'success') {
-        res.send(retData);
+        //res.send(retData);
+        res.send(JSON.stringify(retData));
+
       } else {
         res.send(JSON.stringify({ 'error' : 'DB Error for searchBlogsByLocationName for '  
                                   + location_name}));
@@ -75,10 +77,10 @@ var blogs = function() {
     });
   }
 
-  var _blogsByTimeStamp = function(req, res) {
-
+  var _blogsByTopLocation = function(req, res) {
+    
     // Call the helper object and read blogs from DB
-    blogsApiHelperObj.getBlogsByTimeStamp(req, res,function(returnMsg, retData) {
+    blogsApiHelperObj.getBlogsByTopLocation(req, res,function(returnMsg, retData) {
       if(returnMsg === 'success') {
         res.send(retData);
       } else {
