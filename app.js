@@ -10,6 +10,7 @@ var multer        = require('multer'); // Used to aid in file uploads in forms
 // Master header file for travel log app
 DEFS          = require('travel-log/defines/defines.js'); 
 
+cloudinary    = require('cloudinary'); // Global Handle for image server
 dbConnectMongo = null;
 connection_string = null;
 passport      = require('passport'); // Authentication
@@ -22,7 +23,26 @@ jsonUtil      = new jsonUtil();
 jsonBuilder   = require(DEFS.DIR.JSON_BUILDER);  // Global Json Library Utility
 jBuilder      = new jsonBuilder();
 
-/* Need to research if its a good practice to do this*/
+
+
+// Mongo DB Config 
+dbServer = 'openshift_mongo'
+config = dbConfig['openshift_mongo'];
+config = config.mongolab;
+connection_string = 'mongodb://' +config.username + ":" +
+                          config.password + "@" +
+                          config.host  + ':' +
+                          config.port + '/' +
+                          config.database;
+                          
+// App config for image server 
+cloudinary.config({ 
+  cloud_name: 'dlqznqkpv', 
+  api_key: '283962699431494', 
+  api_secret: '---TFXOQ4S0-jH8V-hnEn0ceJlw' 
+});
+
+
 // Global Domain handling utility
 domainHandler = require(DEFS.DIR.DOMAIN_HANDLER);
 domainHandler = new domainHandler();
@@ -82,12 +102,10 @@ var server = app.listen(server_port, server_ip_address, function () {
 var login = require(DEFS.DIR.R_LOGIN);
 var user  = require(DEFS.DIR.R_USER);
 var apis  = require(DEFS.DIR.R_APIS);
-var tests = require(DEFS.DIR.R_TESTS);
 
 app.use(login);
 app.use(user);
 app.use(apis);
-app.use(tests);
 
 // Operating system
 var os = require('os');

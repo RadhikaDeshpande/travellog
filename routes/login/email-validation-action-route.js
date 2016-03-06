@@ -10,9 +10,7 @@ var email_validation = function() {
   }
 
   this.getResendUserValidateEmailAction = function(req, res) {
-    // Set the domain to genymotion if req is from emulator
-    domainHandler.setDomain(req);
-    res.render('resend-email.ejs', { message: req.flash('revalidateEmailMessage') });
+    res.render('login-resend-email-validation.ejs', { message: req.flash('revalidateEmailMessage') });
   }
 
   this.postResendUserValidateEmailAction = function(req, res) {

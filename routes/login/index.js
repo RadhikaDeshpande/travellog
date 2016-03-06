@@ -18,6 +18,11 @@ app.get('/', function(req, res) {
 });
 
 /****************** namma /signup' **********************/
+app.get('/signup', function(req, res) {
+  namma_auth_obj.signupAction(req, res);
+});
+
+
 app.post('/signup', function(req, res, next) {
   passport.authenticate('local-signup', function(err, userObj, info) {
     
@@ -44,35 +49,13 @@ app.post('/signup', function(req, res, next) {
   })(req, res, next);
 });
 
-/******************* social signup' *********************/
-// =======Facebook
-app.get('/auth/facebook', passport.authenticate('facebook', {scope : ['email', 'user_birthday', 'user_location']}));
 
-app.get('/auth/facebook/callback', passport.authenticate('facebook', {
-  successRedirect : '/home',
-  failureRedirect : '/login'
-}));
-
-// ====== Google
-app.get('/auth/google', passport.authenticate('google', {scope : ['profile', 'email', 'https://www.googleapis.com/auth/plus.login']}));
-
-app.get('/auth/google/callback', passport.authenticate('google', {
-  successRedirect : '/home',
-  failureRedirect : '/login'
-}));
 
 /************************* login ************************/
 app.get('/login', function(req, res) {
   namma_auth_obj.getLoginAction(req, res);
 });
 
-// V1 implementation : Process the login form post request
-// app.post('/login', passport.authenticate('local-login', {
-//   successRedirect : '/home',
-//   failureRedirect : '/login',
-//   failureFlash : true
-//   })
-// );
 
 // V2 implementation : get access to req and res objects to control login flow
 app.post('/login', function(req, res, next) {
@@ -133,6 +116,10 @@ app.post('/resendUserValidateEmail', function(req, res) {
 });
 
 /****************** password management ******************/
+app.get('/forgotPwd', function(req,res) {
+  password_mgmt_obj.getForgotPwdAction(req, res);
+});
+
 app.post('/forgotPwd', function(req,res) {
   password_mgmt_obj.postForgotPwdAction(req, res);
 });
@@ -147,15 +134,4 @@ app.post('/resetPwd',function(req,res){
   password_mgmt_obj.postResetPwdAction(req, res);
 });
 
-// When user requests to change password
-app.get('/changePwd', function(req, res) {
-  password_mgmt_obj.getChangePwdAction(req, res);
-});
 
-app.post('/changePwd',function(req,res){
-  password_mgmt_obj.postChangePwdAction(req, res);
-});
-
-app.get('/test', function(req, res) {
-  namma_auth_obj.testAction(req, res);
-});

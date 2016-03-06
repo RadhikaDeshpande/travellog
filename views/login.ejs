@@ -1,85 +1,81 @@
-<html>
-	<head>
-	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-	  <meta name="viewport" content="max-width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-	  <script type="text/javascript" src="/js/scube-signin.js"></script>
-	  <script type="text/javascript" src="/js/validator.min.js"></script>
-	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-	  <link href="/styles/scube-cube.css" media="screen" rel="stylesheet" type="text/css">
-	  <link href="/styles/scube-signin.css" media="screen" rel="stylesheet" type="text/css">
-	  <link href='https://fonts.googleapis.com/css?family=Roboto:300,400italic,700' rel='stylesheet' type='text/css'>
-	</head>
-	<body>
-		<!-- Waiting SCube -->
-		<div class='cube-overlay'></div>
-		<div class='Cube panelLoad'>
-			<div class='cube-face cube-face-front'>Shop</div>
-			<div class='cube-face cube-face-back'>Socialize</div>
-			<div class='cube-face cube-face-left'>Save</div>
-			<div class='cube-face cube-face-right'>Scube</div>  
-			<div class='cube-face cube-face-bottom'>Chat</div>
-			<div class='cube-face cube-face-top'>$$$</div>
-		</div>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>Get Shit Done Kit by Creative Tim</title>
 
-		<div class='gradient-overlay'></div>
-		<div class='logo-container'>
-			<img class='logo' src="/images/logos/scube_logo.png">
-			<img class='title' src="/images/logos/scube_title_white.png">
-		</div>
+    <link href="bootstrap3/css/bootstrap.css" rel="stylesheet" />
+    <link href="assets/css/get-shit-done.css" rel="stylesheet" />
+    <link href="assets/css/demo.css" rel="stylesheet" />
+    
+    <!--     Font Awesome     -->
+    <link href="bootstrap3/css/font-awesome.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Grand+Hotel' rel='stylesheet' type='text/css'>
 
-		<div class='error-message'></div>
+</head>
+<body>
+	<div class='blurred-container'>
+		<div class="img-src" style="background-image: url('assets/img/cover.jpg')"></div>
+	  	<div class='img-src blur' style="background-image: url('assets/img/cover_blur.jpg')"></div>
+	    
+	    <div class="motto">
+	        <div class="border no-right-border">Travel</div>
+	        <div class="border">Log</div>
+	        <div class="row divtext">A Website for travel related blogs!</div>
+	        <div class="logindiv">
+			  		<div class="loginbutton"><a class="btn btn-block btn-lg btn-round" href="http://localhost:3000/login">Login</a></div>
+		        <div class="loginbutton"><a class="btn btn-block btn-lg btn-round" href="http://localhost:3000/signup">Signup</a></div>
+		    	</div>
+	    </div>
+	</div> <!-- end blurred container -->
+	
+</body>
 
-		<div class='auth'>
-			<div class='slider-container'>
-				<div class='slider'>
 
-					<div class='signup-form-container'>
-						<i class="right-arrow fa fa-chevron-right fa-2x"></i>
-						<div class='heading'></div>
-						<input class='email' type="text" placeholder="Email Address" name="email">
-						<input class='password' type="password" placeholder="Password" name="password">
-						<input class='nickname' type="text" placeholder="Nickname (required)" name="nickname">
-						<div class="gender-container">
-						  <div class="gender">
-						    <input id="male" name="gender" type="radio" class="gender-radio" value="male"/>
-						    <label class='gender-label' for="male">
-						      <i class="fa fa-male"></i>
-						    </label>
-						  </div>
-						  <div class="gender">
-						    <input id="female" name="gender"type="radio" class="gender-radio" value="female"/>
-						    <label class='gender-label' for="female">
-						    	<i class="fa fa-female"></i>
-						    </label>
-						  </div>
-						</div>
-						<button id='signup' type="submit">Sign Up</button>
-					</div>
 
-					<div class='signin-container'>
-						<hr />
-							<div class='heading'></div>
-							<div class='social'>
-								<a href="/auth/facebook"><i class="fa fa-facebook-square fa-4x"></i></a>
-								<a href="/auth/google"><i class="fa fa-google-plus-square fa-4x"></i></a>
-								<i class="signin-button fa fa-envelope-square fa-4x"></i>
-							</div>
-						<hr />
-						<div class='options'>
-							<div class='signup-button'></div>
-							<div class='skip-button'></div>
-						</div>
-					</div>
+<script src="jquery/jquery-1.10.2.js" type="text/javascript"></script>
+<script src="assets/js/jquery-ui-1.10.4.custom.min.js" type="text/javascript"></script>
 
-					<div class='signin-form-container'>
-						<i class="left-arrow fa fa-chevron-left fa-2x"></i>
-						<input class='email' type="text" placeholder="Email Address" name="email">
-						<input class='password' type="password" placeholder="Password" name="password">
-						<button id='signin' type="submit">Sign In</button>
-						<div class='forgot-password'></div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</body>
+<script src="bootstrap3/js/bootstrap.js" type="text/javascript"></script>
+<script src="assets/js/gsdk-checkbox.js"></script>
+<script src="assets/js/gsdk-radio.js"></script>
+<script src="assets/js/gsdk-bootstrapswitch.js"></script>
+<script src="assets/js/get-shit-done.js"></script>
+<script src="assets/js/signin.js"></script>
+
+<script src="assets/js/custom.js"></script>
+
+<script type="text/javascript">
+
+    $('.btn-tooltip').tooltip();
+    $('.label-tooltip').tooltip();
+    $('.pick-class-label').click(function(){
+        var new_class = $(this).attr('new-class');
+        var old_class = $('#display-buttons').attr('data-class');
+        var display_div = $('#display-buttons');
+        if(display_div.length) {
+        var display_buttons = display_div.find('.btn');
+        display_buttons.removeClass(old_class);
+        display_buttons.addClass(new_class);
+        display_div.attr('data-class', new_class);
+        }
+    });
+    $( "#slider-range" ).slider({
+        range: true,
+        min: 0,
+        max: 500,
+        values: [ 75, 300 ],
+    });
+    $( "#slider-default" ).slider({
+            value: 70,
+            orientation: "horizontal",
+            range: "min",
+            animate: true
+    });
+    $('.carousel').carousel({
+      interval: 4000
+    });
+</script>
+
 </html>
