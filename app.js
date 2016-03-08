@@ -15,7 +15,6 @@ dbConnectMongo = null;
 connection_string = null;
 passport      = require('passport'); // Authentication
 dbConfig      = require(DEFS.DIR.DB_CONFIG);
-socialConfig  = require(DEFS.DIR.SOCIAL_CONFIG); // Load the social config
 SCUBE_LOG     = require(DEFS.DIR.LOGGER); //Global logger object
 SCUBE_LOG     = new SCUBE_LOG();
 jsonUtil      = require(DEFS.DIR.JSON_UTIL);  // Global Json Library Utility

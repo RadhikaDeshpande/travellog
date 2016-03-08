@@ -30,8 +30,23 @@ var blogsPost = function() {
                                     +' post /apis/blogs'}));
     }
 
-    if(typeof postData.count === 'undefined') {
-      res.send(JSON.stringify({ 'error' : 'No count Type provided for' 
+    if(typeof postData.foodImageCount === 'undefined') {
+      res.send(JSON.stringify({ 'error' : 'No foodImageCount Type provided for' 
+                                    +' post /apis/blogs'}));
+    }
+
+    if(typeof postData.travelImageCount === 'undefined') {
+      res.send(JSON.stringify({ 'error' : 'No travelImageCount Type provided for' 
+                                    +' post /apis/blogs'}));
+    }
+
+    if(typeof postData.foodJointName === 'undefined') {
+      res.send(JSON.stringify({ 'error' : 'No foodJointName Type provided for' 
+                                    +' post /apis/blogs'}));
+    }
+
+    if(typeof postData.foodDescription === 'undefined') {
+      res.send(JSON.stringify({ 'error' : 'No foodDescription Type provided for' 
                                     +' post /apis/blogs'}));
     }
 
@@ -62,21 +77,20 @@ var blogsPost = function() {
 
   var _postBlogInsert = function(req, res) {
 
-    _buildimagePaths(req,function(imagesArray) {
-      //res.send("HHH");
-      //return;
-
-      // Insert the blog by invoking the helper method
-      blogsPostApiHelperObj.insert(req, imagesArray, function(returnMsg, retData) {
-        if(returnMsg === 'success') {
-          res.send(JSON.stringify("Succes"));
-          return;
-        } 
-        else {
-          res.send(JSON.stringify({ "blogs_reason" : "DB Error for blogs insert", 
-                                    "blogs_status" : -1 })); 
-          return;
-        }
+    _buildImagePaths(req,function(travelImagesArray) {
+      _buildFoodImagePaths(req,function(foodImagesArray) {
+        // Insert the blog by invoking the helper method
+        blogsPostApiHelperObj.insert(req, travelImagesArray, foodImagesArray,function(returnMsg, retData) {
+          if(returnMsg === 'success') {
+            res.send(JSON.stringify("Succes"));
+            return;
+          } 
+          else {
+            res.send(JSON.stringify({ "blogs_reason" : "DB Error for blogs insert", 
+                                      "blogs_status" : -1 })); 
+            return;
+          }
+        });
       });
     });
   }
@@ -112,10 +126,10 @@ var blogsPost = function() {
     });
   }
 
-  var _buildimagePaths = function(req,callback) {
+  var _buildImagePaths = function(req,callback) {
 
     // Increment by 1 as looping starts from 1
-    var count = +req.body.count + 1; // To convert from string to int
+    var count = +req.body.travelImageCount + 1; // To convert from string to int
     var imagesArray = [];
     for (i = 1; i<count; i++) { // 
       var imagename = 'image';
@@ -123,6 +137,19 @@ var blogsPost = function() {
       imagesArray.push(req.files[imagename].path);
     }
     callback(imagesArray);
+  }
+
+  var _buildFoodImagePaths = function(req,callback) {
+
+    // Increment by 1 as looping starts from 1
+    var count = +req.body.foodImageCount + 1; // To convert from string to int
+    var foodImagesArray = [];
+    for (i = 1; i<count; i++) { // 
+      var imagename = 'foodImage';
+      imagename = imagename+i;
+      foodImagesArray.push(req.files[imagename].path);
+    }
+    callback(foodImagesArray);
   }
 }
 module.exports = blogsPost;
