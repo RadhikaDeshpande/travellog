@@ -30,23 +30,23 @@ var blogsPost = function() {
                                     +' post /apis/blogs'}));
     }
 
-    if(typeof postData.foodImageCount === 'undefined') {
-      res.send(JSON.stringify({ 'error' : 'No foodImageCount Type provided for' 
+    if(typeof postData.food_image_count === 'undefined') {
+      res.send(JSON.stringify({ 'error' : 'No food_image_count Type provided for' 
                                     +' post /apis/blogs'}));
     }
 
-    if(typeof postData.travelImageCount === 'undefined') {
-      res.send(JSON.stringify({ 'error' : 'No travelImageCount Type provided for' 
+    if(typeof postData.travel_image_count === 'undefined') {
+      res.send(JSON.stringify({ 'error' : 'No food_image_count Type provided for' 
                                     +' post /apis/blogs'}));
     }
 
-    if(typeof postData.foodJointName === 'undefined') {
-      res.send(JSON.stringify({ 'error' : 'No foodJointName Type provided for' 
+    if(typeof postData.food_joint_name === 'undefined') {
+      res.send(JSON.stringify({ 'error' : 'No food_joint_name Type provided for' 
                                     +' post /apis/blogs'}));
     }
 
-    if(typeof postData.foodDescription === 'undefined') {
-      res.send(JSON.stringify({ 'error' : 'No foodDescription Type provided for' 
+    if(typeof postData.food_description === 'undefined') {
+      res.send(JSON.stringify({ 'error' : 'No food_description Type provided for' 
                                     +' post /apis/blogs'}));
     }
 
@@ -129,7 +129,7 @@ var blogsPost = function() {
   var _buildImagePaths = function(req,callback) {
 
     // Increment by 1 as looping starts from 1
-    var count = +req.body.travelImageCount + 1; // To convert from string to int
+    var count = +req.body.travel_image_count + 1; // To convert from string to int
     var imagesArray = [];
     for (i = 1; i<count; i++) { // 
       var imagename = 'image';
@@ -142,7 +142,7 @@ var blogsPost = function() {
   var _buildFoodImagePaths = function(req,callback) {
 
     // Increment by 1 as looping starts from 1
-    var count = +req.body.foodImageCount + 1; // To convert from string to int
+    var count = +req.body.food_image_count + 1; // To convert from string to int
     var foodImagesArray = [];
     for (i = 1; i<count; i++) { // 
       var imagename = 'foodImage';
