@@ -56,6 +56,9 @@ app.get('/login', function(req, res) {
   namma_auth_obj.getLoginAction(req, res);
 });
 
+app.get('/profile', function(req, res) {
+ res.render('profile.ejs');
+});
 
 // V2 implementation : get access to req and res objects to control login flow
 app.post('/login', function(req, res, next) {
