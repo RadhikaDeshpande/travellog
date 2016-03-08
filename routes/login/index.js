@@ -137,4 +137,8 @@ app.post('/resetPwd',function(req,res){
   password_mgmt_obj.postResetPwdAction(req, res);
 });
 
+app.post('/test',function(req,res) {
+  console.log(req.files);
+
+});
 
