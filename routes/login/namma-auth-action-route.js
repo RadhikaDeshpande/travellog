@@ -1,16 +1,15 @@
 var namma_auth = function() {
 
-  // Setup Passport strategies. Return object not required.
-  var nammaAuth  = require(DEFS.DIR.C_LOGIN_NAMMA_AUTH)(passport); // pass passport for configuration
   /**********************signup-login-controllers-action-functions*****************/
 
   this.indexAction = function(req, res) {
 
-    if(req.session.passport.user) {
-      res.redirect('/home');
+    if(req.session.user) {
+      res.redirect('/profile');
       return;
     }
-    res.render('login.ejs');
+    res.render('login.ejs', {
+                message : ""});
     return;
   }
 
@@ -21,80 +20,26 @@ var namma_auth = function() {
 
     // If the user has already logged in, proceed to home page
     // If data is present send the data in the redirect
-    if(req.session.passport.user) {
-      res.redirect('/home');
+    if(req.session.user) {
+      res.redirect('/profile');
       return;
     }
-    /*res.render('login-form.ejs', {
-      message      : req.flash('loginMessage'),
-      domain       : DEFS.CONST.DOMAIN_URL,  
-      userDeviceId : deviceId,
-      consumerAppData : consumer_app_data
-    }); // load login view*/
-    res.render('login-form.ejs');
+
+    res.render('login-form.ejs', {
+                message : ""});
+
     return;
   }
 
    this.signupAction = function(req, res) {
 
-    if(req.session.passport.user) {
-      res.redirect('/home');
+    if(req.session.user) {
+      res.redirect('/profile');
       return;
     }
 
-    res.render('signup-form.ejs');
-    return;
-  }
-
-  // Scube Ready : Show home page.
-  // Reched here from passport login/signup success
-  this.homeAction = function(req, res) {
-
-    // Used to store the device id for which the request is recvd
-    // This feild is used later when needed
-    var deviceId;
-
-    // If the user has not logged in, proceed to login page
-    // If data is present send the data in the redirect
-    // Passport.user is present only when signged in
-    if(!req.session.passport.user) {
-
-      SCUBE_LOG.info("No valid sign in session, redirecting to login page");
-      if(req.query.consumer_app_data) {
-        SCUBE_LOG.info("No Session, in getHome action, redirecting to home with app data");
-        res.redirect('/login?consumer_app_data='+req.query.consumer_app_data);
-      } else {
-        SCUBE_LOG.info("No Session, in getHome action, redirecting to home without app data");
-        res.redirect('/login');
-      }
-
-      return;
-    }
-
-    //Parse and extract the required feilds sent from consumer app
-    if(req.query.consumer_app_data) {
-      var domain = dataParser.getDomain(req);
-      if(domain) {
-        // Set the domain to genymotion if req is from emulator
-        domainHandler.setDomain(domain);
-      }
-      deviceId = dataParser.getDeviceId(req);
-      SCUBE_LOG.debug("Routes-Signup Action: DeviceId : "+ deviceId);
-    }
-
-    var userId = (typeof req.session.passport.user.user_id !== 'undefined') ? req.session.passport.user.user_id : null,
-        emailId = (typeof req.session.passport.user.email_id !== 'undefined') ? req.session.passport.user.email_id : null,
-        socialType = (typeof req.session.passport.user.social_type !== 'undefined') ? req.session.passport.user.social_type : null;
-
-    SCUBE_LOG.info("User Successfully Logged in Via Social Account. emailId = "+emailId);
-
-    res.render('login-success.ejs', {
-      'result' : 'success',
-      'userId': userId,
-      'emailId': emailId,
-      'socialType': socialType
-    });
-
+    res.render('signup-form.ejs', {
+                message : ""});
     return;
   }
 

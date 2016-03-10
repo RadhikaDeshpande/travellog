@@ -5,11 +5,13 @@ var app                 = module.exports = express();
 //Based on the requests route it to appropriate controller action
 
 var namma_auth          = require(DEFS.DIR.R_LOGIN_NAMMA_AUTH_ACTION);
+var namma_auth_post     = require(DEFS.DIR.C_LOGIN_NAMMA_AUTH);
 var email_validation    = require(DEFS.DIR.R_LOGIN_EMAIL_VALIDATION_ACTION);
 var password_mgmt       = require(DEFS.DIR.R_LOGIN_PASSWORD_MGMT_ACTION);
 
 //Create new instances for each handlers
 namma_auth_obj          = new namma_auth();
+namma_auth_post_obj     = new namma_auth_post();
 email_validation_obj    = new email_validation();
 password_mgmt_obj       = new password_mgmt();
 
@@ -22,33 +24,9 @@ app.get('/signup', function(req, res) {
   namma_auth_obj.signupAction(req, res);
 });
 
-
-app.post('/signup', function(req, res, next) {
-  passport.authenticate('local-signup', function(err, userObj, info) {
-    
-    // If an exception occurred, err will be set
-    if (err) {
-      console.log('Fatal exception passport namma signup error');
-      return next(err, res);
-    }
-
-    // If authentication failed, userObj,  will be set to false
-    if (!userObj) {
-      console.log('Passport Namma Signup did not return valid userObj.', info);
-      return res.send(JSON.stringify({result: 'failure', message: ((info.message) ? info.message : null)}));
-    }
-
-    req.logIn(userObj, function(err) {
-      if (err) {
-        return next(err, res);
-      }
-      
-      // Signup success
-      return res.send(JSON.stringify({result: 'success', user: userObj, message: ((info.message) ? info.message : null)}));
-    });
-  })(req, res, next);
+app.post('/signup', function(req, res) {
+  namma_auth_post_obj.nammaSignupPostAction(req, res);
 });
-
 
 
 /************************* login ************************/
@@ -56,45 +34,25 @@ app.get('/login', function(req, res) {
   namma_auth_obj.getLoginAction(req, res);
 });
 
-app.get('/profile', function(req, res) {
- res.render('profile.ejs');
-});
-
-// V2 implementation : get access to req and res objects to control login flow
-app.post('/login', function(req, res, next) {
-  passport.authenticate('local-login', function(err, userObj, info) {
-    console.log('Namma login passport callback received');
-
-    // If an exception occurred, err will be set
-    if (err) {
-      console.log('Fatal exception passport namma login error');
-      return next(err, res);
-    }
-
-    // If authentication failed, userObj,  will be set to false
-    if (!userObj) {
-      console.log('Passport Namma Login did not return valid userObj.', info);
-      return res.send(JSON.stringify({result: 'failure', message: ((info.message) ? info.message : null)}));
-    }
-
-    req.logIn(userObj, function(err) {
-      if (err) {
-        return next(err, res);
-      }
-
-      // Login success
-      return res.send(JSON.stringify({result: 'success', user: userObj, message: ((info.message) ? info.message : null)}));
-    });
-  })(req, res, next);
-});
-
-app.use('/login', function(next) {
-  console.log('Reached here', err);
+app.post('/login', function(req, res) {
+  namma_auth_post_obj.nammaLoginPostAction(req, res);
 });
 
 /********************** profile *************************/
 app.get('/home', function(req, res) {
   namma_auth_obj.homeAction(req, res);
+});
+
+app.get('/profile', function(req, res) {
+ if(req.session.user){
+  res.render('profile.ejs', {
+                message : req.session.message,
+                user_id : req.session.user.user_id,
+                user_name:req.session.user.user_name});
+  return;
+ } 
+
+  res.redirect('/');
 });
 
 /************************* logut ************************/

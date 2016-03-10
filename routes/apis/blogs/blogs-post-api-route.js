@@ -14,40 +14,48 @@ var blogsPost = function() {
 
     // Recieved POST data
     var postData = req.body;
+    console.log(req.body);
     // Get the action type
     if(typeof postData.action_type === 'undefined' || !postData.action_type) {
       res.send(JSON.stringify({ 'error' : 'No Action Type provided for' 
                                     +' post /apis/blogs'}));
+      return;
     }
 
-    if(typeof postData.content === 'undefined' || !postData.content) {
-      res.send(JSON.stringify({ 'error' : 'No content  provided for' 
+    if(typeof postData.travel_text === 'undefined' || !postData.travel_text) {
+      res.send(JSON.stringify({ 'error' : 'No travel_text  provided for' 
                                     +' post /apis/blogs'}));
+      return;
     }
 
     if(typeof postData.location === 'undefined' || !postData.location) {
       res.send(JSON.stringify({ 'error' : 'No location Type provided for' 
                                     +' post /apis/blogs'}));
+      return;
     }
 
     if(typeof postData.food_image_count === 'undefined') {
       res.send(JSON.stringify({ 'error' : 'No food_image_count Type provided for' 
                                     +' post /apis/blogs'}));
+      return;
     }
 
     if(typeof postData.travel_image_count === 'undefined') {
       res.send(JSON.stringify({ 'error' : 'No food_image_count Type provided for' 
                                     +' post /apis/blogs'}));
+      return;
     }
 
     if(typeof postData.food_joint_name === 'undefined') {
       res.send(JSON.stringify({ 'error' : 'No food_joint_name Type provided for' 
                                     +' post /apis/blogs'}));
+      return;
     }
 
-    if(typeof postData.food_description === 'undefined') {
-      res.send(JSON.stringify({ 'error' : 'No food_description Type provided for' 
+    if(typeof postData.food_text === 'undefined') {
+      res.send(JSON.stringify({ 'error' : 'No food_text Type provided for' 
                                     +' post /apis/blogs'}));
+      return;
     }
 
     var action_type = postData.action_type;
@@ -129,26 +137,29 @@ var blogsPost = function() {
   var _buildImagePaths = function(req,callback) {
 
     // Increment by 1 as looping starts from 1
-    var count = +req.body.travel_image_count + 1; // To convert from string to int
+    /*var count = +req.body.travel_image_count + 1; // To convert from string to int
     var imagesArray = [];
     for (i = 1; i<count; i++) { // 
       var imagename = 'image';
       imagename = imagename+i;
       imagesArray.push(req.files[imagename].path);
-    }
+    }*/
+    var imagesArray = [];
+    imagesArray.push(req.files['travel_image'].path);
     callback(imagesArray);
   }
 
   var _buildFoodImagePaths = function(req,callback) {
 
     // Increment by 1 as looping starts from 1
-    var count = +req.body.food_image_count + 1; // To convert from string to int
+    /*var count = +req.body.food_image_count + 1; // To convert from string to int
     var foodImagesArray = [];
     for (i = 1; i<count; i++) { // 
       var imagename = 'foodImage';
-      imagename = imagename+i;
-      foodImagesArray.push(req.files[imagename].path);
-    }
+      imagename = imagename+i;*/
+      var foodImagesArray = [];
+      foodImagesArray.push(req.files['food_image'].path);
+    //}
     callback(foodImagesArray);
   }
 }
