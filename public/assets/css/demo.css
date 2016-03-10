@@ -61,8 +61,8 @@
     background-color: #FFFFFF;
 }
 .navigation-example{
-    height: 660px;
-    background-image: url('../img/bg.jpg');
+    height: 800px;
+    background-image: url('../img/cover.jpg');
     background-position: center center;
     background-size: cover;
     position: relative;
@@ -321,4 +321,101 @@
 .section-gray h5{
     margin: 0;
     line-height: 40px;
+}
+
+.collapse ul li ul{
+   max-height:500px;/* you can change as you need it */
+   overflow:auto;/* to get scroll */
+}
+
+.travelBlogEntry {
+    position: relative;
+    width: 60%;
+    margin-left: 20%;
+}
+
+.travelRow {
+    width: 100%;
+    position: relative;
+    margin-top: 10px;
+}
+
+.travelRowRight {
+    width: 65%;
+    position: relative;
+    float: right;
+}
+
+.travelRowLeft {
+    width: 35%;
+    position: relative;
+    float: left;
+}
+
+.travelImageText {
+    width: 48%;
+    position: relative;
+    float: left;
+    margin-top: 3%;
+    text-align: right;
+    margin-right: 2%;
+    color: white;
+}
+
+.travelImageButton {
+    width: 50%;
+    position: relative;
+    float: left;
+}
+
+.foodBlogEntry {
+    position: relative;
+    width: 60%;
+    margin-left: 20%;
+    margin-top: 100px;
+}
+
+.foodRow {
+    width: 100%;
+    position: relative;
+    margin-top: 10px;
+}
+
+.foodRowRight {
+    width: 65%;
+    position: relative;
+    float: right;
+}
+
+.foodRowLeft {
+    width: 35%;
+    position: relative;
+    float: left;
+}
+
+.foodImageText {
+    width: 48%;
+    position: relative;
+    float: left;
+    margin-top: 3%;
+    text-align: right;
+    margin-right: 2%;
+    color: white;
+}
+
+.foodImageButton {
+    width: 50%;
+    position: relative;
+    float: left;
+}
+
+#submitButton {
+    float: left;
+    width: 60%;
+    margin-right: 20%;
+    margin-left: 20%;
+}
+
+.logoutButton {
+    float:right;
 }
