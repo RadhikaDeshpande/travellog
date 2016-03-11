@@ -33,6 +33,14 @@ var blogs = function() {
         _blogsByUserName(req, res);
       break;
 
+      case DEFS.CONST.APIS_BLOGS_QUERY_CASE_DISPLAY_GET_FORM:
+        res.render('view-blogs.ejs', {
+                message : req.session.message,
+                user_id : req.session.user.user_id,
+                user_name:req.session.user.user_name});
+        return;
+      break;
+
       default: //Ivalid case
         res.send(JSON.stringify({ 'error' : 'invalid q_case for /apis/ '
                   + 'blogs/ ' + req.query.q_case}));
@@ -45,6 +53,7 @@ var blogs = function() {
     // Call the helper object and read blogs from DB
     blogsApiHelperObj.getBlogsByViewCount(req, res, function(returnMsg, retData) {
       if(returnMsg === 'success') {
+        //console.log(retData);
         res.send(retData);
       } else {
         res.send(JSON.stringify({ 'error' : 'DB Error for getBlogsByViewCount'}));
@@ -82,6 +91,7 @@ var blogs = function() {
     // Call the helper object and read blogs from DB
     blogsApiHelperObj.getBlogsByTopLocation(req, res,function(returnMsg, retData) {
       if(returnMsg === 'success') {
+        //console.log(retData);
         res.send(retData);
       } else {
         res.send(JSON.stringify({ 'error' : 'DB Error for getBlogsByTimeStamp'}));
@@ -98,7 +108,7 @@ var blogs = function() {
       res.send(JSON.stringify({ 'error' : 'user_name for /apis/blogs/ cant be null'})); 
       return;
     }
-
+    user_name = req.query.user_name;
     // Call the helper object and read blogs from DB
     blogsApiHelperObj.getBlogsByUsername(req, res, user_name, function(returnMsg, retData) {
       if(returnMsg === 'success') {

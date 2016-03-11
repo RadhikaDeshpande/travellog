@@ -19,6 +19,23 @@ app.post('/apis/blogs', function(req, res) {
   postBlogsObj.blogsGenericAction(req, res);
 });
 
+app.get('/addblog', function(req, res) {
+  res.render('add-blog.ejs', {
+                message : req.session.message,
+                user_id : req.session.user.user_id,
+                user_name:req.session.user.user_name});
+  return;
+});
+
+app.get('/viewblogs', function(req, res) {
+  res.render('view-blogs.ejs', {
+                message : req.session.message,
+                user_id : req.session.user.user_id,
+                user_name:req.session.user.user_name});
+  return;
+});
+
+
 /****************** Food End Point *********************/
 app.get('/apis/food', function(req, res) {
   foodPlacesObj.foodGenericAction(req, res);
