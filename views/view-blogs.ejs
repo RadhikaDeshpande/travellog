@@ -15,23 +15,43 @@
 
 </head>
 <body>
-	<div class='blurred-container'>
-		<div class="img-src" style="background-image: url('assets/img/cover.jpg')"></div>
-	  	<div class='img-src blur' style="background-image: url('assets/img/cover_blur.jpg')"></div>
-	    
-	    <div class="motto">
-	        <div class="border no-right-border">Travel</div>
-	        <div class="border">Log</div>
-	        <div class="row divtext">A Website for travel related blogs!</div>
-	        <div class="logindiv">
-              <div class="signupbutton"><button type="submit" id="viewblogsbylocation" class="btn btn-block btn-lg btn-round">View blogs for a particular place</button></div>
-              <div class="signupbutton"><button type="submit" id="viewblogsbytoptraveldestination" class="btn btn-block btn-lg btn-round">View blogs for most visted place</button></div>
-              <div class="signupbutton"><button type="submit" id="viewmostviewedblogs" class="btn btn-block btn-lg btn-round">View most famous Blogs</button></div>
-              <div class="signupbutton"><button type="submit" id="foodblogsbylocation" class="btn btn-block btn-lg btn-round">Food blogs for a given location </button></div>
-			  <div class="signupbutton"><button type="submit" id="foodblogsbypopularity" class="btn btn-block btn-lg btn-round">Top food destinations</button></div>
-		    </div>
-	    </div>
-	</div> <!-- end blurred container -->
+
+    <div id="navbar-full">
+    <div id="navbar">
+    <div class="navigation-example">
+    <nav class="navbar navbar-default navbar-transparent" role="navigation-demo">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <a class="navbar-brand" href="http://localhost:3000/">TravelLog </a>
+                
+                <% if (user_id.length  > 0 && user_name.length > 0) { %>
+                    <a class="navbar-brand" style='margin-left:20px;'>
+                        <div class="row divtext"> Welcome <%= user_name %>!</div>
+                    </a>
+                    <a class="navbar-brand" style='margin-left:20px;'>
+                        <div class="row divtext">Your id:<%= user_id %> </div>
+                    </a>
+                <% } %> 
+            </div>
+            <div class="logoutButton">
+                <a class="navbar-brand" href="http://localhost:3000/logout">Logout</a>
+            </div>
+        </div>
+        <div class="viewstab">
+            <button type="submit" id="viewblogsbylocation" class="btn btn-default viewstabbuttons"><h4>View blogs for a particular place</button>
+            <button type="submit" id="viewblogsbytoptraveldestination" class="btn btn-default viewstabbuttons"><h4>View blogs for most visted place</button>
+            <button type="submit" id="viewmostviewedblogs" class="btn btn-default viewstabbuttons"><h4>View most famous Blogs</button>
+            <button type="submit" id="foodblogsbylocation" class="btn btn-default viewstabbuttons"><h4>Food blogs for a given location </button>
+            <button type="submit" id="foodblogsbypopularity" class="btn btn-default viewstabbuttons"><h4>View the Top food destinations</button>
+        </div>
+
+        <div id="blogcontent"></div>
+
+    </nav>    
+    </div>
+    </div><!--  end navbar -->
+    </div> <!-- end menu-dropdown -->
 	
 </body>
 

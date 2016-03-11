@@ -15,27 +15,50 @@
 
 </head>
 <body>
-  <div class='blurred-container'>
-    <div class="img-src" style="background-image: url('assets/img/cover.jpg')"></div>
-      <div class='img-src blur' style="background-image: url('assets/img/cover_blur.jpg')"></div>
-      
-      <div class="motto">
-        <a class="navbar-brand" href="http://localhost:3000/">TravelLog </a>
-            <a class="navbar-brand" style='margin-left:5px;'>
-          <% if (user_id.length  > 0 && user_name.length > 0) { %><div class="row divtext"> Welcome <%= user_id %>!, <%= user_name %> </div><% } %> 
-          <div class="logoutButton">
-            <a class="navbar-brand" href="http://localhost:3000/logout">Logout</a>
-          </div>
-          <div class="logindiv">
-            <div class="signupbutton"><a class="btn btn-block btn-lg btn-round" href="http://localhost:3000/addblog">Add a new Blog</a></div>
-            <% if (user_id.length  > 0 ) { %>
-            <input type="hidden" name="email_id" id="email_id" value="<%= user_id %>">
-            <% } %>
-            <div class="signupbutton"><button type="submit" id="myblogs" class="btn btn-block btn-lg btn-round">View My Blogs</button></div>
-            <div class="signupbutton"><a class="btn btn-block btn-lg btn-round" href="http://localhost:3000/viewblogs">View Others Blogs</a></div>
-          </div>
-      </div>
-  </div> <!-- end blurred container -->
+
+<div id="navbar-full">
+    <div id="navbar">
+        <div class="navigation-example">
+            <nav class="navbar navbar-default navbar-transparent" role="navigation-demo">
+                <div class="container">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="http://localhost:3000/">TravelLog </a>
+                        
+                        <% if (user_id.length  > 0 && user_name.length > 0) { %>
+                            <a class="navbar-brand" style='margin-left:20px;'>
+                                <div class="row divtext"> Welcome <%= user_name %>!</div>
+                            </a>
+                            <a class="navbar-brand" style='margin-left:20px;'>
+                                <div class="row divtext">Your id:<%= user_id %> </div>
+                            </a>
+                        <% } %> 
+                    </div>
+                    <div class="logoutButton">
+                        <a class="navbar-brand" href="http://localhost:3000/logout">Logout</a>
+                    </div>
+                </div>
+
+                
+                <div class="blogapisdiv">
+                    <a class="blogapibuttons" href="http://localhost:3000/addblog"><button class="btn btn-default btn-block"><h3>Add a new Blog</h3></button></a>
+
+                    <a class="blogapibuttons" id="myblogs"><button class="btn btn-default btn-block"><h3>View My Blogs</h3></button></a>
+
+                    <a class="blogapibuttons" href="http://localhost:3000/viewblogs"><button class="btn btn-default btn-block"><h3>View Others Blogs</h3></button></a>
+
+                    <% if (user_id.length  > 0 ) { %>
+                        <input type="hidden" name="email_id" id="email_id" value="<%= user_id %>"/>
+                    <% } %>
+                    
+                </div>
+
+            </nav>    
+        </div>
+    </div><!--  end navbar -->
+</div> <!-- end menu-dropdown -->
+
+
   
 </body>
 
