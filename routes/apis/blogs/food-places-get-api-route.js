@@ -37,6 +37,7 @@ var food = function() {
     // Call the helper object and read food places from DB
     foodApiHelperObj.getFoodPlacesByVisitCount(req, res, function(returnMsg, retData) {
       if(returnMsg === 'success') {
+        //console.log(retData);
         res.send(retData);
       } else {
         res.send(JSON.stringify({ 'error' : 'DB Error for getFoodPlacesByVisitCount'}));
@@ -59,6 +60,7 @@ var food = function() {
     foodApiHelperObj.searchFoodPlacesByLocationName(req, res, location_name, function(returnMsg, retData) {
       if(returnMsg === 'success') {
         //res.send(retData);
+        //console.log(retData);
         res.send(JSON.stringify(retData));
 
       } else {

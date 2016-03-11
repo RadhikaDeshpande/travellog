@@ -43,28 +43,24 @@ var namma_auth = function() {
     return;
   }
 
-  // ====== Scube logout route ======
+  // ====== travel log logout route ======
   this.logoutAction = function(req, res) {
-    // Hack to destroy social login session
 
-    var info = {};
-    
-    if(!req.session.passport.user){
-      SCUBE_LOG.info("Logout Action : No valid session exists in logout action");
-      res.redirect('/login');
+    if(!req.session.user){
+      console.log("Logout Action : No valid session exists in logout action");
+      res.render('login.ejs', {
+                message : ""});
       return;
     }
 
     // destroy the session
+    req.session.user = "";
     req.session.destroy();
-    //SCUBE_LOG.info("Req session object After session destroy NAMMA ", req);
     setTimeout(function() {
       req.logout();
-      //SCUBE_LOG.info("Req session object After session logout ", req);
-      
-      // device id is fetched from android by login/signup form
-      SCUBE_LOG.info("In logout action Redirecting to login");
-      res.redirect('/login');
+      console.log("Destroying the session")
+      res.redirect('/');
+      return;
     }, 2000);
   }
 }
