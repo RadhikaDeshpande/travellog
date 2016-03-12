@@ -450,3 +450,15 @@
     white-space: normal;
 
 }
+
+.contentDivClass {
+    float: left;
+    width: 100%;
+    margin-top: 5%;
+    margin-bottom: 3%;
+    margin-left: 1%;
+}
+
+.imageSrcClass {
+    margin-left: 1%;
+}
