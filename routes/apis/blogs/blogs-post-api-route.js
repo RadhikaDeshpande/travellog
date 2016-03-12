@@ -22,9 +22,10 @@ var blogsPost = function() {
       return;
     }
 
-    if(typeof postData.travel_text === 'undefined' || !postData.travel_text) {
-      res.send(JSON.stringify({ 'error' : 'No travel_text  provided for' 
-                                    +' post /apis/blogs'}));
+    if(typeof postData.travel_text === 'undefined' && (!postData.travel_text) &&
+          typeof postData.food_joint_name === 'undefined' && (!postData.food_joint_name) &&
+          typeof postData.food_text === 'undefined' && (!postData.food_text)) {
+          res.send(JSON.stringify({ 'error' : 'Please enter information to log your travel'}));
       return;
     }
 
@@ -34,7 +35,7 @@ var blogsPost = function() {
       return;
     }
 
-    if(typeof postData.food_image_count === 'undefined') {
+    /*if(typeof postData.food_image_count === 'undefined') {
       res.send(JSON.stringify({ 'error' : 'No food_image_count Type provided for' 
                                     +' post /apis/blogs'}));
       return;
@@ -56,7 +57,7 @@ var blogsPost = function() {
       res.send(JSON.stringify({ 'error' : 'No food_text Type provided for' 
                                     +' post /apis/blogs'}));
       return;
-    }
+    }*/
 
     var action_type = postData.action_type;
 
@@ -145,7 +146,10 @@ var blogsPost = function() {
       imagesArray.push(req.files[imagename].path);
     }*/
     var imagesArray = [];
-    imagesArray.push(req.files['travel_image'].path);
+    if(req.files['travel_image']) {
+        imagesArray.push(req.files['travel_image'].path);
+    }
+    
     callback(imagesArray);
   }
 
@@ -158,7 +162,9 @@ var blogsPost = function() {
       var imagename = 'foodImage';
       imagename = imagename+i;*/
       var foodImagesArray = [];
-      foodImagesArray.push(req.files['food_image'].path);
+      if(req.files['food_image']) {
+        foodImagesArray.push(req.files['food_image'].path);
+      }
     //}
     callback(foodImagesArray);
   }

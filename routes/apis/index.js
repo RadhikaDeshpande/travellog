@@ -20,19 +20,25 @@ app.post('/apis/blogs', function(req, res) {
 });
 
 app.get('/addblog', function(req, res) {
-  res.render('add-blog.ejs', {
+  if(req.session.user){
+    res.render('add-blog.ejs', {
                 message : req.session.message,
                 user_id : req.session.user.user_id,
                 user_name:req.session.user.user_name});
-  return;
+    return;
+  } 
+  res.redirect('/');
 });
 
 app.get('/viewblogs', function(req, res) {
-  res.render('view-blogs.ejs', {
-                message : req.session.message,
-                user_id : req.session.user.user_id,
-                user_name:req.session.user.user_name});
-  return;
+  if(req.session.user){
+    res.render('view-blogs.ejs', {
+                  message : req.session.message,
+                  user_id : req.session.user.user_id,
+                  user_name:req.session.user.user_name});
+    return;
+  }
+  res.redirect('/');
 });
 
 
