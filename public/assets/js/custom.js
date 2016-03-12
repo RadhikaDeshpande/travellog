@@ -57,7 +57,7 @@ $(document).ready(function(){
 		//http://localhost:3000/apis/blogs/?q_case=2&location_name= 
     // alert("Location is hardcoded for now for this query");
 		$.ajax({
-			url: '/apis/blogs?q_case=2&location_name=Chicago',
+			url: '/apis/blogs?q_case=2&location_name=San Francisco',
 			type: 'GET',
 			data: "",
 			async: false,
@@ -76,15 +76,15 @@ $(document).ready(function(){
 		   var blog_count = obj['totalBlogCount'];
 		   var blogs = obj['blogs'];
 		   $.each(blogs, function() {
-		        // alert(this['content']);
+		        // alert(this['travel_text']);
 		        // alert(this['images']);
 		    });
 
-			  $("#blogcontent").append("<div><h3> Blogs in "+ blog_location + "</h3></div>");
+			  $("#blogcontent").append("<div class=\"blogLocationClass\"><h3> Blogs in "+ blog_location + "</h3></div>");
 			  for (var i = 0; i < blog_count; i++) {
 			  	var contentDivId = "contentDiv" + i;
 			  	var imageSrcId = "imageSrc" + i;
-			  	$("#blogcontent").append("<div class=\"contentDivClass\" id=" + contentDivId + ">" + blogs[i]['content'] + "</div>");
+			  	$("#blogcontent").append("<div class=\"contentDivClass\" id=" + contentDivId + ">" + blogs[i]['travel_text'] + "</div>");
 			  	$("#blogcontent").append("<img class=\"imageSrcClass\" id=" + imageSrcId + " src=" + blogs[i]['images'][0] + "></img>");
 			  }
 			}
