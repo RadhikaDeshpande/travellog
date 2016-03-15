@@ -54,6 +54,7 @@ var blogs = function() {
     blogsApiHelperObj.getBlogsByViewCount(req, res, function(returnMsg, retData) {
       if(returnMsg === 'success') {
         //console.log(retData);
+        console.log(retData);
         res.send(retData);
       } else {
         res.send(JSON.stringify({ 'error' : 'DB Error for getBlogsByViewCount'}));
@@ -76,6 +77,7 @@ var blogs = function() {
     blogsApiHelperObj.searchBlogsByLocationName(req, res, location_name, function(returnMsg, retData) {
       if(returnMsg === 'success') {
         //res.send(retData);
+        //console.log(retData);
         res.send(JSON.stringify(retData));
 
       } else {
@@ -91,7 +93,7 @@ var blogs = function() {
     // Call the helper object and read blogs from DB
     blogsApiHelperObj.getBlogsByTopLocation(req, res,function(returnMsg, retData) {
       if(returnMsg === 'success') {
-        //console.log(retData);
+        console.log(retData);
         res.send(retData);
       } else {
         res.send(JSON.stringify({ 'error' : 'DB Error for getBlogsByTimeStamp'}));
@@ -112,6 +114,7 @@ var blogs = function() {
     // Call the helper object and read blogs from DB
     blogsApiHelperObj.getBlogsByUsername(req, res, user_name, function(returnMsg, retData) {
       if(returnMsg === 'success') {
+        console.log(retData);
         res.send(retData);
       } else {
         res.send(JSON.stringify({ 'error' : 'DB Error for getBlogsByUsername'}));
