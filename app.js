@@ -94,7 +94,7 @@ DEFS.CONST.DOMAIN_URL = (process.env.OPENSHIFT_NODEJS_PORT) ? DEFS.CONST.PRODUCT
 
 // Launch Scube
 var server = app.listen(server_port, server_ip_address, function () {
-  console.log('Scube is scubing at IP : ' + server_ip_address + " Port : " + server_port );
+  console.log('travel-log is running at IP : ' + server_ip_address + " Port : " + server_port );
 });
 
 // Routes For Consumer App
