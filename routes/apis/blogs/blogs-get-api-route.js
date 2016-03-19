@@ -41,6 +41,10 @@ var blogs = function() {
         return;
       break;
 
+      case DEFS.CONST.APIS_BLOGS_QUERY_CASE_BY_PROXIMITY:
+        _blogsByUserProximity(req, res);
+      break;
+
       default: //Ivalid case
         res.send(JSON.stringify({ 'error' : 'invalid q_case for /apis/ '
                   + 'blogs/ ' + req.query.q_case}));
@@ -113,6 +117,40 @@ var blogs = function() {
     user_name = req.query.user_name;
     // Call the helper object and read blogs from DB
     blogsApiHelperObj.getBlogsByUsername(req, res, user_name, function(returnMsg, retData) {
+      if(returnMsg === 'success') {
+        console.log(retData);
+        res.send(retData);
+      } else {
+        res.send(JSON.stringify({ 'error' : 'DB Error for getBlogsByUsername'}));
+      }
+      return;
+    });
+  }
+
+  var _blogsByUserProximity = function(req, res) {
+
+    if(typeof req.query.user_lat === 'undefined' || req.query.user_lat === '') {
+      res.send(JSON.stringify({ 'error' : 'latitude for proximity API cant be null'})); 
+      return;
+    }
+
+    if(typeof req.query.user_long === 'undefined' || req.query.user_long === '') {
+      res.send(JSON.stringify({ 'error' : 'longitude for proximity API cant be null'})); 
+      return;
+    }
+
+    if(typeof req.query.user_country_name === 'undefined' || req.query.user_country_name === '') {
+      res.send(JSON.stringify({ 'error' : 'country for proximity API cant be null'})); 
+      return;
+    }
+
+    if(typeof req.query.user_radius_preference === 'undefined' || req.query.user_radius_preference === '') {
+      res.send(JSON.stringify({ 'error' : 'user_radius_preference for proximity API cant be null'})); 
+      return;
+    }
+
+    // Call the helper object and read blogs closest to user proximity
+    blogsApiHelperObj.getPostsByUserProximity(req, res, function(returnMsg, retData) {
       if(returnMsg === 'success') {
         console.log(retData);
         res.send(retData);

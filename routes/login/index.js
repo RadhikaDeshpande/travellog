@@ -1,6 +1,7 @@
 //contains all the routes for login module
 var express             = require('express');
 var app                 = module.exports = express();
+var math = require('mathjs');
 
 //Based on the requests route it to appropriate controller action
 
@@ -39,10 +40,6 @@ app.post('/login', function(req, res) {
 });
 
 /********************** profile *************************/
-app.get('/home', function(req, res) {
-  namma_auth_obj.homeAction(req, res);
-});
-
 app.get('/profile', function(req, res) {
  if(req.session.user){
   res.render('profile.ejs', {
@@ -93,10 +90,5 @@ app.get('/resetPwd',function(req,res){
 // Reset the pwd
 app.post('/resetPwd',function(req,res){
   password_mgmt_obj.postResetPwdAction(req, res);
-});
-
-app.post('/test',function(req,res) {
-  console.log(req.files);
-
 });
 

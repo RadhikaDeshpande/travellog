@@ -10,7 +10,7 @@ getBlogsObj           = new getBlogs();
 postBlogsObj          = new postBlogs();
 foodPlacesObj 				= new foodPlaces();
 
-/****************** Blogs End Point *********************/
+/****************** Posts End Point *********************/
 app.get('/apis/blogs', function(req, res) {
   getBlogsObj.blogsGenericAction(req, res);
 });

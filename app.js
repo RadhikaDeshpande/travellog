@@ -5,6 +5,7 @@ var logger        = require('morgan');
 var cookieParser  = require('cookie-parser');
 var bodyParser    = require('body-parser');
 var multer        = require('multer'); // Used to aid in file uploads in forms
+var math          = require('mathjs');
 
 //Global Variables
 // Master header file for travel log app
