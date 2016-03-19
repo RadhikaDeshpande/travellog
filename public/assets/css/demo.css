@@ -347,6 +347,12 @@
     margin-top: 10px;
 }
 
+.travelTitle h4 {
+    color: white;
+    float: center;
+    width: 100%;
+}
+
 .travelRowRight {
     width: 65%;
     position: relative;
@@ -354,9 +360,11 @@
 }
 
 .travelRowLeft {
+    margin-top: 10px;
     width: 35%;
     position: relative;
     float: left;
+    color: white;
 }
 
 .travelImageText {
@@ -386,6 +394,12 @@
     width: 100%;
     position: relative;
     margin-top: 10px;
+}
+
+.foodTitle h4 {
+    color: white;
+    float: center;
+    width: 100%;
 }
 
 .foodRowRight {

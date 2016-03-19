@@ -6,7 +6,8 @@
 	<title>Share your travel experience</title>
 
     <link href="bootstrap3/css/bootstrap.css" rel="stylesheet" />
-	<link href="assets/css/get-shit-done.css" rel="stylesheet" />
+    <link href="assets/css/get-shit-done.css" rel="stylesheet" />
+    <link href="assets/css/jquery-ui.css" rel="stylesheet" />
     <link href="assets/css/demo.css" rel="stylesheet" />
 
     <!--     Font Awesome     -->
@@ -35,9 +36,13 @@
         </div>
 
         <div class="travelBlogEntry">
+          <div class="travelTitle"><h4>Tell us about your travel experience</h4></div>
           <textarea name="travel_text" class="form-control custom-control" rows="5" style="resize:none" placeholder="Enter your travel Experience"></textarea> 
           <div class="travelRow">
-            
+            <div class="travelRowLeft">
+              Enter City <input class="ff_elem" type="text" name="ff_nm_from[]" value="" id="f_elem_city"/>
+            </div>
+
             <div class="travelRowRight">
               <div class="travelImageText">Upload your Fav Travel Image</div>
               <div class="travelImageButton"><input type="file" name="travel_image" class="btn btn-block btn-default"></input></div>
@@ -47,67 +52,11 @@
         </div>
 
         <div class="foodBlogEntry">
+          <div class="foodTitle"><h4>Tell us about your food experience</h4></div>
           <input name="food_joint_name" class="form-control custom-control" placeholder="Name of the establishment"></input> 
           <textarea name="food_text" class="form-control custom-control" rows="5" style="resize:none" placeholder="Enter your food Experience"></textarea> 
-          <div class="foodRow">
-              <ul class="nav navbar-nav">
-                <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Choose the city you visited<b class="caret"></b></a>
-                  <ul class="dropdown-menu">
-                    <li><a href="#">New York</a></li>
-                    <li><a href="#">Los Angeles</a></li>
-                    <li><a href="#">Chicago</a></li>
-                    <li><a href="#">Houston</a></li>
-                    <li><a href="#">Philadelphia</a></li>
-                    <li><a href="#">Phoenix</a></li>
-                    <li><a href="#">San Antonio</a></li>
-                    <li><a href="#">San Diego</a></li>
-                    <li><a href="#">Dallas</a></li>
-                    <li><a href="#">San Jose</a></li>
-                    <li><a href="#">Austin</a></li>
-                    <li><a href="#">Jacksonville</a></li>
-                    <li><a href="#">San Francisco</a></li>
-                    <li><a href="#">Indianapolis</a></li>
-                    <li><a href="#">Columbus</a></li>
-                    <li><a href="#">Fort Worth</a></li>
-                    <li><a href="#">Charlotte</a></li>
-                    <li><a href="#">Detroit</a></li>
-                    <li><a href="#">El Paso</a></li>
-                    <li><a href="#">Seattle</a></li>
-                    <li><a href="#">Denver</a></li>
-                    <li><a href="#">Washington</a></li>
-                    <li><a href="#">Memphis</a></li>
-                    <li><a href="#">Boston</a></li>
-                    <li><a href="#">Nashville</a></li>
-                    <li><a href="#">Baltimore</a></li>
-                    <li><a href="#">Oklahoma City</a></li>
-                    <li><a href="#">Portland</a></li>
-                    <li><a href="#">Las Vegas</a></li>
-                    <li><a href="#">Louisville</a></li>
-                    <li><a href="#">Milwaukee</a></li>
-                    <li><a href="#">Albuquerque</a></li>
-                    <li><a href="#">Tucson</a></li>
-                    <li><a href="#">Fresno</a></li>
-                    <li><a href="#">Sacramento</a></li>
-                    <li><a href="#">Long Beach</a></li>
-                    <li><a href="#">Kansas City</a></li>
-                    <li><a href="#">Mesa</a></li>
-                    <li><a href="#">Atlanta</a></li>
-                    <li><a href="#">Virginia Beach</a></li>
-                    <li><a href="#">Omaha</a></li>
-                    <li><a href="#">Colorado Springs</a></li>
-                    <li><a href="#">Raleigh</a></li>
-                    <li><a href="#">Miami</a></li>
-                    <li><a href="#">Oakland</a></li>
-                    <li><a href="#">Minneapolis</a></li>
-                    <li><a href="#">Tulsa</a></li>
-                    <li><a href="#">Cleveland</a></li>
-                    <li><a href="#">Wichita</a></li>
-                    <li><a href="#">New Orleans</a></li>
-                  </ul>
-                </li>
-              </ul>
-          
+
+          <div class="foodRow">          
             <div class="foodRowRight">
               <div class="foodImageText">Upload your Fav Food Image</div>
               <div class="foodImageButton"><input type="file" name="food_image" class="btn btn-block btn-default"></input></div>
@@ -120,6 +69,10 @@
         <input type="hidden" name="food_image_count" value="1">
         <input type="hidden" name="action_type" value="1">
         <input type="hidden" name="location" value="Chicago">
+        <input type="hidden" id="city" name="city" value="">
+        <input type="hidden" id="state" name="state" value="">
+        <input type="hidden" id="country" name="country" value="">
+        <input type="hidden" id="cityDetails" name="cityDetails" value="">
         <% if (user_id.length  > 0 ) { %>
         <input type="hidden" name="email_id" value="<%= user_id %>">
         <% } %>
@@ -135,6 +88,7 @@
 </body>
 
   <script src="jquery/jquery-1.10.2.js" type="text/javascript"></script>
+  <script src="jquery/jquery-ui.min.js"></script>
 	<script src="assets/js/jquery-ui-1.10.4.custom.min.js" type="text/javascript"></script>
 
 	<script src="bootstrap3/js/bootstrap.js" type="text/javascript"></script>

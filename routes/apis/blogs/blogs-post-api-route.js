@@ -91,7 +91,7 @@ var blogsPost = function() {
         // Insert the blog by invoking the helper method
         blogsPostApiHelperObj.insert(req, travelImagesArray, foodImagesArray,function(returnMsg, retData) {
           if(returnMsg === 'success') {
-            res.send(JSON.stringify("Succes"));
+            res.send(JSON.stringify("Success"));
             return;
           } 
           else {
