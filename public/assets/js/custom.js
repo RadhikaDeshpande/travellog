@@ -8,6 +8,46 @@ $(window).scroll(function(e) {
 });
 
 $(document).ready(function(){
+	$('#nearMe').click(function(event){
+		if (navigator.geolocation) {
+		  var timeoutVal = 10 * 1000 * 1000;
+		  navigator.geolocation.getCurrentPosition(
+		    displayPosition, 
+		    displayError,
+		    { enableHighAccuracy: true, timeout: timeoutVal, maximumAge: 0 }
+		  );
+		}
+		else {
+		  alert("User location ");
+		}
+	});
+
+	function displayPosition(position) {
+		var lati = position.coords.latitude;
+		var longi = position.coords.longitude;
+		jQuery.getJSON(
+			"https://maps.googleapis.com/maps/api/geocode/json?latlng="+ lati + "," + longi + "&result_type=country&key=AIzaSyAK30NZQ8Xrcfm5imGDNtHtcx4fx1TkNHw",
+			function (data) {
+				var country = data['results'][0]['formatted_address'];
+				alert("User location: " + data['results'][0]['formatted_address']);
+				jQuery.getJSON(
+					"http://localhost:3000/apis/blogs?q_case=6&user_lat=" + lati + "&user_long=" + longi + "&user_country_name=" + country + "&user_radius_preference=" + "500",
+					function (data) {
+						alert(JSON.stringify(data, 0, 4));
+					}
+				);
+			}
+		);
+	}
+
+	function displayError(error) {
+	  var errors = { 
+	    1: 'Permission denied',
+	    2: 'Position unavailable',
+	    3: 'Request timeout'
+	  };
+	  alert("Error: " + errors[error.code]);
+	}
 
 	$('#uploadForm').submit(function(event){
 		//disable the default form submission
