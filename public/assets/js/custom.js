@@ -97,6 +97,7 @@ $(document).ready(function(){
 		$('#city').val(locArray[0].trim());
 		$('#state').val(locArray[1].trim());
 		$('#country').val(locArray[2].trim());
+		$('#locationString').val($('#f_elem_city').val());
 		
 		//grab all form data  
 		var formData = new FormData($(this)[0]);
@@ -113,7 +114,8 @@ $(document).ready(function(){
 					contentType: false,
 					processData: false,
 					success: function (returndata) {
-						if(returndata == "Success") {
+						returndata = JSON.parse(returndata);
+						if(returndata === "Success") {
 							alert("Uploaded successfully.");
 						} else {
 							alert("Oops, something went wrong. Please try again.");

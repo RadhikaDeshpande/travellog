@@ -29,8 +29,8 @@ var blogsPost = function() {
       return;
     }
 
-    if(typeof postData.location === 'undefined' || !postData.location) {
-      res.send(JSON.stringify({ 'error' : 'No location Type provided for' 
+    if(typeof postData.city === 'undefined' || !postData.city) {
+      res.send(JSON.stringify({ 'error' : 'No city provided for' 
                                     +' post /apis/blogs'}));
       return;
     }
