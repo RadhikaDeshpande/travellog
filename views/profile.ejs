@@ -47,6 +47,8 @@
 
                     <a class="blogapibuttons" href="http://localhost:3000/viewblogs"><button class="btn btn-default btn-block"><h3>View Others Blogs</h3></button></a>
 
+                    <a class="blogapibuttons" id="nearMe"><button class="btn btn-default btn-block"><h3>Blogs near me</h3></button></a>
+
                     <% if (user_id.length  > 0 ) { %>
                         <input type="hidden" name="email_id" id="email_id" value="<%= user_id %>"/>
                     <% } %>
