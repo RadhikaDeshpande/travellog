@@ -8,30 +8,71 @@ $(window).scroll(function(e) {
 });
 
 $(document).ready(function(){
+	
 	$('#nearMe').click(function(event){
-		if (navigator.geolocation) {
-		  var timeoutVal = 10 * 1000 * 1000;
-		  navigator.geolocation.getCurrentPosition(
-		    displayPosition, 
-		    displayError,
-		    { enableHighAccuracy: true, timeout: timeoutVal, maximumAge: 0 }
-		  );
+		if (typeof globalLatitude !== 'undefined' && typeof globalLongitude !== 'undefined') {
+			var range = $("#rangeSelect").val();
+			var lati = globalLatitude;
+			var longi = globalLongitude;
+			alert("found lat and long");
+		    if(typeof globalCountry !== 'undefined') {
+		    	var country = globalCountry;
+		    	alert("found country");
+		    	jQuery.getJSON(
+					"http://localhost:3000/apis/blogs?q_case=6&user_lat=" + lati + "&user_long=" + longi + "&user_country_name=" + country + "&user_radius_preference=" + range,
+					function (data) {
+						displayPostsAroundMe(data);
+					}
+				);
+		    } else {
+		    	jQuery.getJSON(
+					"https://maps.googleapis.com/maps/api/geocode/json?latlng="+ lati + "," + longi + "&result_type=country&key=AIzaSyAK30NZQ8Xrcfm5imGDNtHtcx4fx1TkNHw",
+					function (data) {
+						var country = data['results'][0]['formatted_address'];
+						// alert("User location: " + data['results'][0]['formatted_address']);
+						jQuery.getJSON(
+							"http://localhost:3000/apis/blogs?q_case=6&user_lat=" + lati + "&user_long=" + longi + "&user_country_name=" + country + "&user_radius_preference=" + range,
+							function (data) {
+								displayPostsAroundMe(data);
+							}
+						);
+					}
+				);
+		    }
+		} else {
+			if (navigator.geolocation) {
+			  var timeoutVal = 10 * 1000 * 1000;
+			  navigator.geolocation.getCurrentPosition(
+			    displayPosition, 
+			    displayError,
+			    { enableHighAccuracy: true, timeout: timeoutVal, maximumAge: 0 }
+			  );
+			}
+			else {
+			  alert("User location ");
+			}
 		}
-		else {
-		  alert("User location ");
-		}
+		
 	});
+	
+	function displayPostsAroundMe(data) {
+		alert(JSON.stringify(data, 0, 4));
+	}
 
 	function displayPosition(position) {
 		var lati = position.coords.latitude;
 		var longi = position.coords.longitude;
+		globalLatitude = lati;
+		globalLongitude = longi;
+		var range = $("#rangeSelect").val();
 		jQuery.getJSON(
 			"https://maps.googleapis.com/maps/api/geocode/json?latlng="+ lati + "," + longi + "&result_type=country&key=AIzaSyAK30NZQ8Xrcfm5imGDNtHtcx4fx1TkNHw",
 			function (data) {
 				var country = data['results'][0]['formatted_address'];
-				alert("User location: " + data['results'][0]['formatted_address']);
+				globalCountry = country;
+				// alert("User location: " + data['results'][0]['formatted_address']);
 				jQuery.getJSON(
-					"http://localhost:3000/apis/blogs?q_case=6&user_lat=" + lati + "&user_long=" + longi + "&user_country_name=" + country + "&user_radius_preference=" + "500",
+					"http://localhost:3000/apis/blogs?q_case=6&user_lat=" + lati + "&user_long=" + longi + "&user_country_name=" + country + "&user_radius_preference=" + range,
 					function (data) {
 						alert(JSON.stringify(data, 0, 4));
 					}

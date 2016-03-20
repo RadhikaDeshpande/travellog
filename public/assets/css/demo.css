@@ -500,3 +500,9 @@
     margin-left: 1%;
     margin-bottom: 15%;
 }
+
+#rangeSelectDiv {
+    float: left;
+    margin-left: 20%;
+    color: white;
+}

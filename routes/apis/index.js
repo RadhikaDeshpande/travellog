@@ -22,9 +22,9 @@ app.post('/apis/blogs', function(req, res) {
 app.get('/addblog', function(req, res) {
   if(req.session.user){
     res.render('add-blog.ejs', {
-                message : req.session.message,
-                user_id : req.session.user.user_id,
-                user_name:req.session.user.user_name});
+    message : req.session.message,
+    user_id : req.session.user.user_id,
+    user_name:req.session.user.user_name});
     return;
   } 
   res.redirect('/');
@@ -33,9 +33,20 @@ app.get('/addblog', function(req, res) {
 app.get('/viewblogs', function(req, res) {
   if(req.session.user){
     res.render('view-blogs.ejs', {
-                  message : req.session.message,
-                  user_id : req.session.user.user_id,
-                  user_name:req.session.user.user_name});
+    message : req.session.message,
+    user_id : req.session.user.user_id,
+    user_name:req.session.user.user_name});
+    return;
+  }
+  res.redirect('/');
+});
+
+app.get('/nearme', function(req, res) {
+  if(req.session.user){
+    res.render('near-me.ejs', {
+    message : req.session.message,
+    user_id : req.session.user.user_id,
+    user_name:req.session.user.user_name});
     return;
   }
   res.redirect('/');
