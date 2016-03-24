@@ -53,29 +53,55 @@ $(document).ready(function(){
 		
 	});
 	
-	function displayPostsAroundMe(data) {
-		var obj = data;
+	function displayPostsAroundMe(obj) {
 
-		var blogsArray = obj['blogs'];
-		var location_metadata = obj['locationMetaData'];
-
-		if(blogsArray.length == 0) {
+		var aggregatePostsCount = obj['aggregatePostsCount'];
+		if(aggregatePostsCount === 0) {
 			$("#blogcontent").html("<div class=\"blogLocationClass\"><h3> No Posts found within the range. Please expand your search radius. </h3></div>");
 			return;
 		}
 
-		if(blogsArray.length == 1) {
-			$("#blogcontent").html("<div class=\"blogLocationClass\"><h3> Found " + blogsArray.length + " post near you</h3></div>");
+		var postArray = obj['postArray'];
+		var postArrayLength = postArray.length;
+		if(aggregatePostsCount == 1) {
+			$("#blogcontent").html("<div class=\"blogLocationClass\"><h3> Found " + aggregatePostsCount + " post near you</h3></div>");
 		} else {
-			$("#blogcontent").html("<div class=\"blogLocationClass\"><h3> Found " + blogsArray.length + " posts near you</h3></div>");
+			$("#blogcontent").html("<div class=\"blogLocationClass\"><h3> Found " + aggregatePostsCount + " posts near you</h3></div>");
 		}
-		
-		var blogs = blogsArray[0]['blogs'];
-		for (var i = 0; i < blogs.length; i++) {
-			var contentDivId = "contentDiv" + i;
-			var imageSrcId = "imageSrc" + i;
-			$("#blogcontent").append("<div class=\"contentDivClass\" id=" + contentDivId + ">" + blogs[i]['travel_text'] + "</div>");
-			$("#blogcontent").append("<img class=\"imageSrcClass\" id=" + imageSrcId + " src=" + blogs[i]['images'][0] + "></img>");
+		var divIterator = 0;
+		for (var i = 0; i < postArrayLength; i++) {
+			var singlePost_cityId 			= postArray[i]['_id'];
+			var singlePost_posts 			= postArray[i]['blogs'];
+			var singlePost_country 			= postArray[i]['country'];
+			var singlePost_distFromUser 	= postArray[i]['distFromUser'];
+			var singlePost_lat 				= postArray[i]['lat'];
+			var singlePost_long 			= postArray[i]['long'];
+			var singlePost_locMetaData 		= postArray[i]['locMetaData'];
+			var singlePost_totalBlogCount 	= postArray[i]['totalBlogCount'];
+			for (var j = 0; j < singlePost_totalBlogCount; j++) {
+				var contentDivId = "contentDiv" + divIterator;
+				var imageSrcId = "imageSrc" + divIterator;
+				var geocodeDivId = "geocodeDiv" + divIterator;
+				var mapDivId = "mapDiv" + divIterator;
+				$("#blogcontent").append("<div class=\"contentDivClass\" id=" + contentDivId + ">" + singlePost_posts[j]['travel_text'] + "</div>");
+				$("#blogcontent").append("<div class=\"imageAndGeo\">\
+					<img class=\"imageSrcClass\" id=" + imageSrcId + " src=" + singlePost_posts[j]['images'][0] + "></img>\
+					<div class=\"geocodeClass\" id=" + geocodeDivId + "></div>\
+				</div>");
+
+				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Location : " + singlePost_locMetaData['geobytesfqcn'] + "</div>");
+				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Latitude : " + singlePost_locMetaData['geobyteslatitude'] + "</div>");
+				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Longitude: " + singlePost_locMetaData['geobyteslongitude'] + "</div>");
+				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Country Capital: " + singlePost_locMetaData['geobytescapital'] + "</div>");
+				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Country Population: " + singlePost_locMetaData['geobytespopulation'] + "</div>");
+				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Currency: " + singlePost_locMetaData['geobytescurrency'] + "</div>");
+				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Currency Code: " + singlePost_locMetaData['geobytescurrencycode'] + "</div>");
+				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Time Zone: " + singlePost_locMetaData['geobytestimezone'] + "</div>");
+				$("#"+geocodeDivId).append("<div class=\"mapClass\"><iframe class=\"mapIframeClass\" scrolling=\"yes\" src=\"https://www.google.com/maps/embed/v1/place?q=" + singlePost_lat + "," + singlePost_long + "&zoom=17&key=AIzaSyAAFLBcMG8LbY2CQdPpufS4yxYSAUYoVrE\"></iframe><div>");
+
+				divIterator++;
+			}
+			
 		}
 		// getcitydetails(location_metadata);
 	}
@@ -290,54 +316,6 @@ $(document).ready(function(){
 		return false;
 	});
 
-	function getcitydetails(data) {
-		$("#blogcontent").append("<div id=\"geobytesinternet\"></div>");
-		$("#blogcontent").append("<div id=\"geobytescountry\"></div>");
-		$("#blogcontent").append("<div id=\"geobytesregionlocationcode\"></div>");
-		$("#blogcontent").append("<div id=\"geobytesregion\"></div>");
-		$("#blogcontent").append("<div id=\"geobyteslocationcode\"></div>");
-		$("#blogcontent").append("<div id=\"geobytescity\"></div>");
-		$("#blogcontent").append("<div id=\"geobytescityid\"></div>");
-		$("#blogcontent").append("<div id=\"geobytesfqcn\"></div>");
-		$("#blogcontent").append("<div id=\"geobyteslatitude\"></div>");
-		$("#blogcontent").append("<div id=\"geobyteslongitude\"></div>");
-		$("#blogcontent").append("<div id=\"geobytescapital\"></div>");
-		$("#blogcontent").append("<div id=\"geobytestimezone\"></div>");
-		$("#blogcontent").append("<div id=\"geobytesnationalitysingular\"></div>");
-		$("#blogcontent").append("<div id=\"geobytespopulation\"></div>");
-		$("#blogcontent").append("<div id=\"geobytesnationalityplural\"></div>");
-		$("#blogcontent").append("<div id=\"geobytesmapreference\"></div>");
-		$("#blogcontent").append("<div id=\"geobytescurrency\"></div>");
-		$("#blogcontent").append("<div id=\"geobytescurrencycode\"></div>");
-		// if (typeof fqcn == "undefined") 
-		// 	fqcn = jQuery("#f_elem_city").val();
-		// cityfqcn = fqcn;
-		// if (cityfqcn) {
-		//     jQuery.getJSON(
-	 //            "http://gd.geobytes.com/GetCityDetails?callback=?&fqcn="+cityfqcn,
-	 //            function (data) {
-		            jQuery("#geobytesinternet").html(data['geobytesinternet']);
-		            jQuery("#geobytescountry").html(data['geobytescountry']);
-		            jQuery("#geobytesregionlocationcode").html(data['geobytesregionlocationcode']);
-		            jQuery("#geobytesregion").html(data['geobytesregion']);
-		            jQuery("#geobyteslocationcode").html(data['geobyteslocationcode']);
-		            jQuery("#geobytescity").html(data['geobytescity']);
-		            jQuery("#geobytescityid").html(data['geobytescityid']);
-		            jQuery("#geobytesfqcn").html(data['geobytesfqcn']);
-		            jQuery("#geobyteslatitude").html(data['geobyteslatitude']);
-		            jQuery("#geobyteslongitude").html(data['geobyteslongitude']);
-		            jQuery("#geobytescapital").html(data['geobytescapital']);
-		            jQuery("#geobytestimezone").html(data['geobytestimezone']);
-		            jQuery("#geobytesnationalitysingular").html(data['geobytesnationalitysingular']);
-		            jQuery("#geobytespopulation").html(data['geobytespopulation']);
-		            jQuery("#geobytesnationalityplural").html(data['geobytesnationalityplural']);
-		            jQuery("#geobytesmapreference").html(data['geobytesmapreference']);
-		            jQuery("#geobytescurrency").html(data['geobytescurrency']);
-		            jQuery("#geobytescurrencycode").html(data['geobytescurrencycode']);
-	 //            }
-		//     );
-		// }
-	}
 
 	jQuery("#f_elem_city").autocomplete({
 		source: function (request, response) {
