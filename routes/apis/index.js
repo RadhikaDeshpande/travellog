@@ -52,6 +52,11 @@ app.get('/nearme', function(req, res) {
   res.redirect('/');
 });
 
+// This API is used to increment the view count/ likes for a 
+// particular blog. 
+app.post('/apis/posts/like', function(req, res) {
+  postBlogsObj.likeAction(req, res);
+});
 
 /****************** Food End Point *********************/
 app.get('/apis/food', function(req, res) {
