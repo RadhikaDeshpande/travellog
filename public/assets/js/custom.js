@@ -14,10 +14,8 @@ $(document).ready(function(){
 			var range = $("#rangeSelect").val();
 			var lati = globalLatitude;
 			var longi = globalLongitude;
-			alert("found lat and long");
 		    if(typeof globalCountry !== 'undefined') {
 		    	var country = globalCountry;
-		    	alert("found country");
 		    	jQuery.getJSON(
 					"http://localhost:3000/apis/blogs?q_case=6&user_lat=" + lati + "&user_long=" + longi + "&user_country_name=" + country + "&user_radius_preference=" + range,
 					function (data) {
@@ -55,8 +53,57 @@ $(document).ready(function(){
 		
 	});
 	
-	function displayPostsAroundMe(data) {
-		alert(JSON.stringify(data, 0, 4));
+	function displayPostsAroundMe(obj) {
+
+		var aggregatePostsCount = obj['aggregatePostsCount'];
+		if(aggregatePostsCount === 0) {
+			$("#blogcontent").html("<div class=\"blogLocationClass\"><h3> No Posts found within the range. Please expand your search radius. </h3></div>");
+			return;
+		}
+
+		var postArray = obj['postArray'];
+		var postArrayLength = postArray.length;
+		if(aggregatePostsCount == 1) {
+			$("#blogcontent").html("<div class=\"blogLocationClass\"><h3> Found " + aggregatePostsCount + " post near you</h3></div>");
+		} else {
+			$("#blogcontent").html("<div class=\"blogLocationClass\"><h3> Found " + aggregatePostsCount + " posts near you</h3></div>");
+		}
+		var divIterator = 0;
+		for (var i = 0; i < postArrayLength; i++) {
+			var singlePost_cityId 			= postArray[i]['_id'];
+			var singlePost_posts 			= postArray[i]['blogs'];
+			var singlePost_country 			= postArray[i]['country'];
+			var singlePost_distFromUser 	= postArray[i]['distFromUser'];
+			var singlePost_lat 				= postArray[i]['lat'];
+			var singlePost_long 			= postArray[i]['long'];
+			var singlePost_locMetaData 		= postArray[i]['locMetaData'];
+			var singlePost_totalBlogCount 	= postArray[i]['totalBlogCount'];
+			for (var j = 0; j < singlePost_totalBlogCount; j++) {
+				var contentDivId = "contentDiv" + divIterator;
+				var imageSrcId = "imageSrc" + divIterator;
+				var geocodeDivId = "geocodeDiv" + divIterator;
+				var mapDivId = "mapDiv" + divIterator;
+				$("#blogcontent").append("<div class=\"contentDivClass\" id=" + contentDivId + ">" + singlePost_posts[j]['travel_text'] + "</div>");
+				$("#blogcontent").append("<div class=\"imageAndGeo\">\
+					<img class=\"imageSrcClass\" id=" + imageSrcId + " src=" + singlePost_posts[j]['images'][0] + "></img>\
+					<div class=\"geocodeClass\" id=" + geocodeDivId + "></div>\
+				</div>");
+
+				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Location : " + singlePost_locMetaData['geobytesfqcn'] + "</div>");
+				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Latitude : " + singlePost_locMetaData['geobyteslatitude'] + "</div>");
+				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Longitude: " + singlePost_locMetaData['geobyteslongitude'] + "</div>");
+				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Country Capital: " + singlePost_locMetaData['geobytescapital'] + "</div>");
+				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Country Population: " + singlePost_locMetaData['geobytespopulation'] + "</div>");
+				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Currency: " + singlePost_locMetaData['geobytescurrency'] + "</div>");
+				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Currency Code: " + singlePost_locMetaData['geobytescurrencycode'] + "</div>");
+				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Time Zone: " + singlePost_locMetaData['geobytestimezone'] + "</div>");
+				$("#"+geocodeDivId).append("<div class=\"mapClass\"><iframe class=\"mapIframeClass\" scrolling=\"yes\" src=\"https://www.google.com/maps/embed/v1/place?q=" + singlePost_lat + "," + singlePost_long + "&zoom=17&key=AIzaSyAAFLBcMG8LbY2CQdPpufS4yxYSAUYoVrE\"></iframe><div>");
+
+				divIterator++;
+			}
+			
+		}
+		// getcitydetails(location_metadata);
 	}
 
 	function displayPosition(position) {
@@ -74,7 +121,7 @@ $(document).ready(function(){
 				jQuery.getJSON(
 					"http://localhost:3000/apis/blogs?q_case=6&user_lat=" + lati + "&user_long=" + longi + "&user_country_name=" + country + "&user_radius_preference=" + range,
 					function (data) {
-						alert(JSON.stringify(data, 0, 4));
+						displayPostsAroundMe(data);
 					}
 				);
 			}
@@ -162,27 +209,27 @@ $(document).ready(function(){
 			processData: false,
 			success: function (returndata) {
 				// alert("Inside Ajax success of viewblogsbylocation - display the returndata");
-			  // alert(returndata);
-			  // alert(returndata.length);
-			  var obj = JSON.parse(returndata);
-			  // $.each(obj, function() {
-		   //      alert(this);             
-		   //  })
-		   var blog_location = obj['_id'];
-		   var blog_count = obj['totalBlogCount'];
-		   var blogs = obj['blogs'];
-		   $.each(blogs, function() {
-		        // alert(this['travel_text']);
-		        // alert(this['images']);
-		    });
+				// alert(returndata);
+				// alert(returndata.length);
+				var obj = JSON.parse(returndata);
+				// $.each(obj, function() {
+			   	//      alert(this);             
+			   	//  })
+				var blog_location = obj['_id'];
+				var blog_count = obj['totalBlogCount'];
+				var blogs = obj['blogs'];
+				$.each(blogs, function() {
+				    // alert(this['travel_text']);
+				    // alert(this['images']);
+				});
 
-			  $("#blogcontent").append("<div class=\"blogLocationClass\"><h3> Blogs in "+ blog_location + "</h3></div>");
-			  for (var i = 0; i < blog_count; i++) {
-			  	var contentDivId = "contentDiv" + i;
-			  	var imageSrcId = "imageSrc" + i;
-			  	$("#blogcontent").append("<div class=\"contentDivClass\" id=" + contentDivId + ">" + blogs[i]['travel_text'] + "</div>");
-			  	$("#blogcontent").append("<img class=\"imageSrcClass\" id=" + imageSrcId + " src=" + blogs[i]['images'][0] + "></img>");
-			  }
+				$("#blogcontent").html("<div class=\"blogLocationClass\"><h3> Blogs in "+ blog_location + "</h3></div>");
+				for (var i = 0; i < blog_count; i++) {
+					var contentDivId = "contentDiv" + i;
+					var imageSrcId = "imageSrc" + i;
+					$("#blogcontent").append("<div class=\"contentDivClass\" id=" + contentDivId + ">" + blogs[i]['travel_text'] + "</div>");
+					$("#blogcontent").append("<img class=\"imageSrcClass\" id=" + imageSrcId + " src=" + blogs[i]['images'][0] + "></img>");
+				}
 			}
 		});
 
@@ -269,36 +316,6 @@ $(document).ready(function(){
 		return false;
 	});
 
-	function getcitydetails(fqcn) {
-		if (typeof fqcn == "undefined") 
-			fqcn = jQuery("#f_elem_city").val();
-		cityfqcn = fqcn;
-		if (cityfqcn) {
-		    jQuery.getJSON(
-	            "http://gd.geobytes.com/GetCityDetails?callback=?&fqcn="+cityfqcn,
-	            function (data) {
-		            jQuery("#geobytesinternet").val(data.geobytesinternet);
-		            jQuery("#geobytescountry").val(data.geobytescountry);
-		            jQuery("#geobytesregionlocationcode").val(data.geobytesregionlocationcode);
-		            jQuery("#geobytesregion").val(data.geobytesregion);
-		            jQuery("#geobyteslocationcode").val(data.geobyteslocationcode);
-		            jQuery("#geobytescity").val(data.geobytescity);
-		            jQuery("#geobytescityid").val(data.geobytescityid);
-		            jQuery("#geobytesfqcn").val(data.geobytesfqcn);
-		            jQuery("#geobyteslatitude").val(data.geobyteslatitude);
-		            jQuery("#geobyteslongitude").val(data.geobyteslongitude);
-		            jQuery("#geobytescapital").val(data.geobytescapital);
-		            jQuery("#geobytestimezone").val(data.geobytestimezone);
-		            jQuery("#geobytesnationalitysingular").val(data.geobytesnationalitysingular);
-		            jQuery("#geobytespopulation").val(data.geobytespopulation);
-		            jQuery("#geobytesnationalityplural").val(data.geobytesnationalityplural);
-		            jQuery("#geobytesmapreference").val(data.geobytesmapreference);
-		            jQuery("#geobytescurrency").val(data.geobytescurrency);
-		            jQuery("#geobytescurrencycode").val(data.geobytescurrencycode);
-	            }
-		    );
-		}
-	}
 
 	jQuery("#f_elem_city").autocomplete({
 		source: function (request, response) {
