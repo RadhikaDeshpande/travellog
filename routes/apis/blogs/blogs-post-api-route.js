@@ -168,5 +168,78 @@ var blogsPost = function() {
     //}
     callback(foodImagesArray);
   }
+
+  this.likeAction = function(req, res) {
+
+    // Recieved POST data
+    var postData = req.body;
+    console.log(req.body);
+    // Get the action type
+    if(typeof postData.locationString === 'undefined' || !postData.locationString) {
+      res.send(JSON.stringify({ 'error' : 'No locationString provided for' 
+                                    +' post /apis/posts/like'}));
+      return;
+    }
+
+    if(typeof postData.blogNumber === 'undefined' || !postData.blogNumber) {
+      res.send(JSON.stringify({ 'error' : 'No blogNumber provided for' 
+                                    +' post /apis/posts/like'}));
+      return;
+    }
+
+    if(typeof postData.action_type === 'undefined' || !postData.action_type) {
+      res.send(JSON.stringify({ 'error' : 'No action type provided for' 
+                                    +' post /apis/posts/like'}));
+      return;
+    }
+
+    switch(postData.action_type) {
+
+    case DEFS.CONST.APIS_POSTS_LIKES_INCREMENT_FOR_TRAVEL_PLACE:
+        _incTravelPostsLikeCount(req, res);
+      break;
+
+      case DEFS.CONST.APIS_POSTS_LIKES_INCREMENT_FOR_FOOD_PLACE :
+        _incFoodPostsLikeCount(req, res);
+      break;
+
+      default: //Ivalid case
+        res.send(JSON.stringify({ 'error' : 'invalid action_type for '
+                                 + '/apis/posts/likes ' + postData.action_type}));
+      break;   
+    }
+  }
+
+  var _incTravelPostsLikeCount = function(req,res) {
+
+    // Increment the blog view count by invoking the helper method
+    blogsPostApiHelperObj.incTravelPostsLikeCount(req,function(returnMsg, retData) {
+      if(returnMsg === 'success') {
+        res.send(JSON.stringify("Success"));
+        return;
+      } 
+      else {
+        res.send(JSON.stringify({ "blogs_reason" : "DB Error for blogs insert", 
+                                  "blogs_status" : -1 })); 
+        return;
+      }
+    });
+  }
+
+  var _incFoodPostsLikeCount = function(req,res) {
+
+    // Increment the blog view count by invoking the helper method
+    blogsPostApiHelperObj.incFoodPostsLikeCount(req,function(returnMsg, retData) {
+      if(returnMsg === 'success') {
+        res.send(JSON.stringify("Success"));
+        return;
+      } 
+      else {
+        res.send(JSON.stringify({ "blogs_reason" : "DB Error for blogs insert", 
+                                  "blogs_status" : -1 })); 
+        return;
+      }
+    });
+  }
 }
 module.exports = blogsPost;
