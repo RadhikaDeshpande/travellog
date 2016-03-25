@@ -44,16 +44,11 @@
 
                 
                 <div class="blogapisdiv">
-                    <a class="blogapibuttons" href="http://localhost:3000/addblog"><button class="btn btn-default btn-block"><h3>Add a Post</h3></button></a>
+                
+                    <a class="blogapibuttons" href="http://localhost:3000/viewfood"><button class="btn btn-default btn-block"><h3>Food </h3></button></a>
 
-                    <a class="blogapibuttons" href="http://localhost:3000/nearme"><button class="btn btn-default btn-block"><h3>Places around me</h3></button></a>
-
-                    <a class="blogapibuttons" href="http://localhost:3000/viewposts"><button class="btn btn-default btn-block"><h3>View Posts</h3></button></a>
-
-                    
-                    
-                    
-                    
+                    <a class="blogapibuttons" href="http://localhost:3000/viewtravel"><button class="btn btn-default btn-block"><h3>Travel </h3></button></a>
+ 
                     <% if (user_id.length  > 0 ) { %>
                         <input type="hidden" name="email_id" id="email_id" value="<%= user_id %>"/>
                     <% } %>

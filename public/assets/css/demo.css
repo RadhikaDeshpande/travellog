@@ -443,6 +443,10 @@
     float:right;
 }
 
+.myBlogsButton {
+    float:right;
+}
+
 .blogapisdiv {
     width: 60%;
     margin-right: 20%;
@@ -462,14 +466,21 @@
 
 .viewstab {
     width: 100%;
-    float: left;
 }
 
 .viewstabbuttons {
     float: left;
-    margin-left: 1%;
+    margin-left: 2%;
     margin-right: 1%;
-    width:18%;
+    width:30%;
+    white-space: normal;
+}
+
+.viewsfoodtabbuttons {
+    float: left;
+    margin-left: 7%;
+    margin-right: 1%;
+    width:40%;
     white-space: normal;
 }
 

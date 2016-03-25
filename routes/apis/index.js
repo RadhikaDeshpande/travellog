@@ -30,9 +30,31 @@ app.get('/addblog', function(req, res) {
   res.redirect('/');
 });
 
-app.get('/viewblogs', function(req, res) {
+app.get('/viewfood', function(req, res) {
   if(req.session.user){
-    res.render('view-blogs.ejs', {
+    res.render('view-food.ejs', {
+    message : req.session.message,
+    user_id : req.session.user.user_id,
+    user_name:req.session.user.user_name});
+    return;
+  }
+  res.redirect('/');
+});
+
+app.get('/viewtravel', function(req, res) {
+  if(req.session.user){
+    res.render('view-travel.ejs', {
+    message : req.session.message,
+    user_id : req.session.user.user_id,
+    user_name:req.session.user.user_name});
+    return;
+  }
+  res.redirect('/');
+});
+
+app.get('/viewposts', function(req, res) {
+  if(req.session.user){
+    res.render('view-posts.ejs', {
     message : req.session.message,
     user_id : req.session.user.user_id,
     user_name:req.session.user.user_name});
