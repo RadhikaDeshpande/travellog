@@ -97,6 +97,7 @@ $(document).ready(function(){
 				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Currency: " + singlePost_locMetaData['geobytescurrency'] + "</div>");
 				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Currency Code: " + singlePost_locMetaData['geobytescurrencycode'] + "</div>");
 				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Time Zone: " + singlePost_locMetaData['geobytestimezone'] + "</div>");
+				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Distance from your location: " + singlePost_distFromUser + "</div>");
 				$("#"+geocodeDivId).append("<div class=\"mapClass\"><iframe class=\"mapIframeClass\" scrolling=\"yes\" src=\"https://www.google.com/maps/embed/v1/place?q=" + singlePost_lat + "," + singlePost_long + "&zoom=17&key=AIzaSyAAFLBcMG8LbY2CQdPpufS4yxYSAUYoVrE\"></iframe><div>");
 
 				divIterator++;
@@ -196,6 +197,23 @@ $(document).ready(function(){
 		return false;
 	});
 
+	$('#logout').click(function() {
+		$.ajax({
+			url: '/logout',
+			type: 'GET',
+			data: "",
+			async: false,
+			cache: false,
+			contentType: false,
+			processData: false,
+			success: function (returndata) {
+				window.location.replace("http://localhost:3000");
+			}
+	});
+
+		return false;
+	});
+
 	$('#viewblogsbylocation').click(function() {
 		//http://localhost:3000/apis/blogs/?q_case=2&location_name= 
     // alert("Location is hardcoded for now for this query");
@@ -248,7 +266,8 @@ $(document).ready(function(){
 			contentType: false,
 			processData: false,
 			success: function (returndata) {
-				alert("Inside Ajax success of viewblogsbylocation - display the returndata");
+				//alert("Inside Ajax success of viewblogsbylocation - display the returndata");
+				displayTopTravelDestinations(returndata);
 			  //alert(returndata);
 			}
 		});
@@ -268,8 +287,8 @@ $(document).ready(function(){
 			contentType: false,
 			processData: false,
 			success: function (returndata) {
-				alert("Inside Ajax success of viewmostviewedblogs - display the returndata");
-			  //alert(returndata);
+				//alert("Inside Ajax success of viewmostviewedblogs - display the returndata");
+			  displayTrendingTravelPosts(returndata);
 			}
 		});
 
@@ -316,6 +335,76 @@ $(document).ready(function(){
 		return false;
 	});
 
+	function displayTopTravelDestinations(obj) {
+		var postArray = obj['postArray'];
+		var aggregatePostsCount = postArray[0].totalBlogCount;
+		if(aggregatePostsCount === 0) {
+			$("#blogcontent").html("<div class=\"blogLocationClass\"><h3> No Posts found please try other search methods</h3></div>");
+			return;
+		}
+
+		var postArray = obj['postArray'];
+		var postArrayLength = postArray.length;
+
+		$("#blogcontent").html("<div class=\"blogLocationClass\"><h3> " + postArray[0]['_id'] + " is the top travel destination and has  " + aggregatePostsCount + " posts</h3></div>");
+		
+		var divIterator = 0;
+		for (var i = 0; i < postArrayLength; i++) {
+			var singlePost_cityId 			= postArray[i]['_id'];
+			var singlePost_posts 			= postArray[i]['blogs'];
+			var singlePost_country 			= postArray[i]['country'];
+			var singlePost_lat 				= postArray[i]['lat'];
+			var singlePost_long 			= postArray[i]['long'];
+			var singlePost_locMetaData 		= postArray[i]['locMetaData'];
+			var singlePost_totalBlogCount 	= postArray[i]['totalBlogCount'];
+			for (var j = 0; j < singlePost_totalBlogCount; j++) {
+				var contentDivId = "contentDiv" + divIterator;
+				var imageSrcId = "imageSrc" + divIterator;
+				var geocodeDivId = "geocodeDiv" + divIterator;
+				var mapDivId = "mapDiv" + divIterator;
+				$("#blogcontent").append("<div class=\"contentDivClass\" id=" + contentDivId + ">" + singlePost_posts[j]['travel_text'] + "</div>");
+				$("#blogcontent").append("<div class=\"imageAndGeo\">\
+					<img class=\"imageSrcClass\" id=" + imageSrcId + " src=" + singlePost_posts[j]['images'][0] + "></img>\
+					<div class=\"geocodeClass\" id=" + geocodeDivId + "></div>\
+				</div>");
+
+				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Location : " + singlePost_locMetaData['geobytesfqcn'] + "</div>");
+				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Latitude : " + singlePost_locMetaData['geobyteslatitude'] + "</div>");
+				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Longitude: " + singlePost_locMetaData['geobyteslongitude'] + "</div>");
+				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Country Capital: " + singlePost_locMetaData['geobytescapital'] + "</div>");
+				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Country Population: " + singlePost_locMetaData['geobytespopulation'] + "</div>");
+				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Currency: " + singlePost_locMetaData['geobytescurrency'] + "</div>");
+				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Currency Code: " + singlePost_locMetaData['geobytescurrencycode'] + "</div>");
+				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Time Zone: " + singlePost_locMetaData['geobytestimezone'] + "</div>");
+				$("#"+geocodeDivId).append("<div class=\"mapClass\"><iframe class=\"mapIframeClass\" scrolling=\"yes\" src=\"https://www.google.com/maps/embed/v1/place?q=" + singlePost_lat + "," + singlePost_long + "&zoom=17&key=AIzaSyAAFLBcMG8LbY2CQdPpufS4yxYSAUYoVrE\"></iframe><div>");
+
+				divIterator++;
+			}		
+		}
+	}
+
+	function displayTrendingTravelPosts(obj) {
+
+		var aggregatePostsCount = obj['aggregatePostsCount'];
+		if(aggregatePostsCount === 0) {
+			$("#blogcontent").html("<div class=\"blogLocationClass\"><h3> Oops! No Posts found . Please use other search criteria. </h3></div>");
+			return;
+		}
+
+		var postArray = obj['postArray'];
+		var postArrayLength = postArray.length;
+		$("#blogcontent").html("<div class=\"blogLocationClass\"><h3> There are  " + aggregatePostsCount + " posts that are trending right now</h3></div>");
+		
+		var divIterator = 0;
+		for (var i = 0; i < postArrayLength; i++) {
+				var contentDivId = "contentDiv" + divIterator;
+				var imageSrcId = "imageSrc" + divIterator;
+				$("#blogcontent").append("<div class=\"contentDivClass\" id=" + contentDivId + ">" + obj['postArray'][i]['travel_text'] + "</div>");
+				$("#blogcontent").append("<div class=\"imageAndGeo\">\
+					<img class=\"imageSrcClass\" id=" + imageSrcId + " src=" + obj['postArray'][i]['images'][0] + "></img></div>");
+				divIterator++;
+			}	
+	}
 
 	jQuery("#f_elem_city").autocomplete({
 		source: function (request, response) {
