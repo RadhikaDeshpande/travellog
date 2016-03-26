@@ -59,10 +59,7 @@ var food = function() {
     // Call the helper object 
     foodApiHelperObj.searchFoodPlacesByLocationName(req, res, location_name, function(returnMsg, retData) {
       if(returnMsg === 'success') {
-        //res.send(retData);
-        console.log(retData);
-        res.send(JSON.stringify(retData));
-
+        res.send(retData);
       } else {
         res.send(JSON.stringify({ 'error' : 'DB Error for searchFoodPlacesByLocationName for '  
                                   + location_name}));

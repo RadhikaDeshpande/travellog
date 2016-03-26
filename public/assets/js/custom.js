@@ -217,8 +217,9 @@ $(document).ready(function(){
 	$('#viewblogsbylocation').click(function() {
 		//http://localhost:3000/apis/blogs/?q_case=2&location_name= 
     // alert("Location is hardcoded for now for this query");
+    var location = $('#f_elem_city').val();
 		$.ajax({
-			url: '/apis/blogs?q_case=2&location_name=San Francisco',
+			url: '/apis/blogs?q_case=2&location_name=' + location,
 			type: 'GET',
 			data: "",
 			async: false,
@@ -226,28 +227,7 @@ $(document).ready(function(){
 			contentType: false,
 			processData: false,
 			success: function (returndata) {
-				// alert("Inside Ajax success of viewblogsbylocation - display the returndata");
-				// alert(returndata);
-				// alert(returndata.length);
-				var obj = JSON.parse(returndata);
-				// $.each(obj, function() {
-			   	//      alert(this);             
-			   	//  })
-				var blog_location = obj['_id'];
-				var blog_count = obj['totalBlogCount'];
-				var blogs = obj['blogs'];
-				$.each(blogs, function() {
-				    // alert(this['travel_text']);
-				    // alert(this['images']);
-				});
-
-				$("#blogcontent").html("<div class=\"blogLocationClass\"><h3> Blogs in "+ blog_location + "</h3></div>");
-				for (var i = 0; i < blog_count; i++) {
-					var contentDivId = "contentDiv" + i;
-					var imageSrcId = "imageSrc" + i;
-					$("#blogcontent").append("<div class=\"contentDivClass\" id=" + contentDivId + ">" + blogs[i]['travel_text'] + "</div>");
-					$("#blogcontent").append("<img class=\"imageSrcClass\" id=" + imageSrcId + " src=" + blogs[i]['images'][0] + "></img>");
-				}
+				displayPostsByLocation(returndata);
 			}
 		});
 
@@ -307,8 +287,7 @@ $(document).ready(function(){
 			contentType: false,
 			processData: false,
 			success: function (returndata) {
-				alert("Inside Ajax success of foodblogsbylocation - display the returndata");
-			  //alert(returndata);
+			  displayFoodByPopulariry(returndata);
 			}
 		});
 
@@ -316,10 +295,9 @@ $(document).ready(function(){
 	});
 	
 	$('#foodblogsbylocation').click(function() {
-		//http://localhost:3000/apis/blogs/?q_case=2&location_name= 
-    alert("Location is hardcoded for now for this query");
+		var location = $('#f_elem_city').val();
 		$.ajax({
-			url: '/apis/food?q_case=2&location_name=San Jose',
+			url: '/apis/food?q_case=2&location_name=' +location ,
 			type: 'GET',
 			data: "",
 			async: false,
@@ -327,8 +305,7 @@ $(document).ready(function(){
 			contentType: false,
 			processData: false,
 			success: function (returndata) {
-				alert("Inside Ajax success of foodblogsbylocation - display the returndata");
-			  //alert(returndata);
+				displayFoodByLocation(returndata);
 			}
 		});
 
@@ -346,7 +323,11 @@ $(document).ready(function(){
 		var postArray = obj['postArray'];
 		var postArrayLength = postArray.length;
 
-		$("#blogcontent").html("<div class=\"blogLocationClass\"><h3> " + postArray[0]['_id'] + " is the top travel destination and has  " + aggregatePostsCount + " posts</h3></div>");
+		if(aggregatePostsCount == 1) {
+			$("#blogcontent").html("<div class=\"blogLocationClass\"><h3> " + postArray[0]['_id'] + " is the top travel destination and has  " + aggregatePostsCount + " post</h3></div>");
+		} else {
+			$("#blogcontent").html("<div class=\"blogLocationClass\"><h3> " + postArray[0]['_id'] + " is the top travel destination and has  " + aggregatePostsCount + " posts</h3></div>");
+		}
 		
 		var divIterator = 0;
 		for (var i = 0; i < postArrayLength; i++) {
@@ -393,17 +374,165 @@ $(document).ready(function(){
 
 		var postArray = obj['postArray'];
 		var postArrayLength = postArray.length;
-		$("#blogcontent").html("<div class=\"blogLocationClass\"><h3> There are  " + aggregatePostsCount + " posts that are trending right now</h3></div>");
+
+		if(aggregatePostsCount == 1) {
+			$("#blogcontent").html("<div class=\"blogLocationClass\"><h3> There are  " + aggregatePostsCount + " post that are trending right now</h3></div>");
+		} else {
+			$("#blogcontent").html("<div class=\"blogLocationClass\"><h3> There are  " + aggregatePostsCount + " posts that are trending right now</h3></div>");
+		}
 		
 		var divIterator = 0;
 		for (var i = 0; i < postArrayLength; i++) {
 				var contentDivId = "contentDiv" + divIterator;
 				var imageSrcId = "imageSrc" + divIterator;
+				var geocodeDivId = "geocodeDiv" + divIterator;
+
 				$("#blogcontent").append("<div class=\"contentDivClass\" id=" + contentDivId + ">" + obj['postArray'][i]['travel_text'] + "</div>");
 				$("#blogcontent").append("<div class=\"imageAndGeo\">\
 					<img class=\"imageSrcClass\" id=" + imageSrcId + " src=" + obj['postArray'][i]['images'][0] + "></img></div>");
+
+				var singlePost_likes    	= obj['postArray'][i]['viewCount'];
+
+				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Likes : " + singlePost_likes + "</div>");
 				divIterator++;
 			}	
+	}
+
+	function displayFoodByPopulariry(obj) {
+
+		var aggregatePostsCount = obj['aggregatePostsCount'];
+		if(aggregatePostsCount === 0) {
+			$("#blogcontent").html("<div class=\"blogLocationClass\"><h3> Oops there are no posts. Please use different search </h3></div>");
+			return;
+		}
+
+		var postArray = obj['postArray'];
+		var postArrayLength = postArray.length;
+		if(aggregatePostsCount == 1) {
+			$("#blogcontent").html("<div class=\"blogLocationClass\"><h3> Found " + aggregatePostsCount + " food related post</h3></div>");
+		} else {
+			$("#blogcontent").html("<div class=\"blogLocationClass\"><h3> Found " + aggregatePostsCount + " food related posts</h3></div>");
+		}
+
+		var divIterator = 0;
+		for (var i = 0; i < postArrayLength; i++) {
+			var singlePost_foodJointName 	= postArray[i]['_id'];  //Ikes
+			var singlePost_posts 			= postArray[i]['foodPosts'];
+			var singlePost_likes    	= postArray[i]['likes'];
+			var singlePost_visitCount    	= postArray[i]['visitCount'];
+			for (var j = 0; j < singlePost_visitCount; j++) {
+				var contentDivId = "contentDiv" + divIterator;
+				var imageSrcId = "imageSrc" + divIterator;
+				var geocodeDivId = "geocodeDiv" + divIterator;
+				var mapDivId = "mapDiv" + divIterator;
+				$("#blogcontent").append("<div class=\"contentDivClass\" id=" + contentDivId + ">" + singlePost_posts[j]['food_text'] + "</div>");
+				$("#blogcontent").append("<div class=\"imageAndGeo\">\
+					<img class=\"imageSrcClass\" id=" + imageSrcId + " src=" + singlePost_posts[j]['foodImages'][0] + "></img>\
+					<div class=\"geocodeClass\" id=" + geocodeDivId + "></div>\
+				</div>");
+
+				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Food Joint Name : " + singlePost_foodJointName + "</div>");
+				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Likes : " + singlePost_likes + "</div>");
+				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Visit count: " + singlePost_visitCount + "</div>");
+				divIterator++;
+			}	
+		}		
+	}
+
+	function displayPostsByLocation(obj) {
+
+		var aggregatePostsCount = obj['aggregatePostsCount'];
+		if(aggregatePostsCount === 0) {
+			$("#blogcontent").html("<div class=\"blogLocationClass\"><h3> No Posts found.  Please choose a different location</h3></div>");
+			return;
+		}
+
+		var postArray = obj['postArray'];
+		var postArrayLength = postArray.length;
+
+		if(aggregatePostsCount == 1) {
+			$("#blogcontent").html("<div class=\"blogLocationClass\"><h3> Found " + aggregatePostsCount + " post for "+ postArray[0]['_id']+"</h3></div>");
+		} else {
+			$("#blogcontent").html("<div class=\"blogLocationClass\"><h3> Found " + aggregatePostsCount + " posts for "+ postArray[0]['_id']+"</h3></div>");
+		}
+		
+		var divIterator = 0;
+		for (var i = 0; i < postArrayLength; i++) {
+			var singlePost_cityId 			= postArray[i]['_id'];
+			var singlePost_posts 			= postArray[i]['blogs'];
+			var singlePost_country 			= postArray[i]['country'];
+			var singlePost_distFromUser 	= postArray[i]['distFromUser'];
+			var singlePost_lat 				= postArray[i]['lat'];
+			var singlePost_long 			= postArray[i]['long'];
+			var singlePost_locMetaData 		= postArray[i]['locMetaData'];
+			var singlePost_totalBlogCount 	= postArray[i]['totalBlogCount'];
+			for (var j = 0; j < singlePost_totalBlogCount; j++) {
+				var contentDivId = "contentDiv" + divIterator;
+				var imageSrcId = "imageSrc" + divIterator;
+				var geocodeDivId = "geocodeDiv" + divIterator;
+				var mapDivId = "mapDiv" + divIterator;
+				$("#blogcontent").append("<div class=\"contentDivClass\" id=" + contentDivId + ">" + singlePost_posts[j]['travel_text'] + "</div>");
+				$("#blogcontent").append("<div class=\"imageAndGeo\">\
+					<img class=\"imageSrcClass\" id=" + imageSrcId + " src=" + singlePost_posts[j]['images'][0] + "></img>\
+					<div class=\"geocodeClass\" id=" + geocodeDivId + "></div>\
+				</div>");
+
+				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Location : " + singlePost_locMetaData['geobytesfqcn'] + "</div>");
+				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Latitude : " + singlePost_locMetaData['geobyteslatitude'] + "</div>");
+				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Longitude: " + singlePost_locMetaData['geobyteslongitude'] + "</div>");
+				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Country Capital: " + singlePost_locMetaData['geobytescapital'] + "</div>");
+				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Country Population: " + singlePost_locMetaData['geobytespopulation'] + "</div>");
+				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Currency: " + singlePost_locMetaData['geobytescurrency'] + "</div>");
+				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Currency Code: " + singlePost_locMetaData['geobytescurrencycode'] + "</div>");
+				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Time Zone: " + singlePost_locMetaData['geobytestimezone'] + "</div>");
+				$("#"+geocodeDivId).append("<div class=\"mapClass\"><iframe class=\"mapIframeClass\" scrolling=\"yes\" src=\"https://www.google.com/maps/embed/v1/place?q=" + singlePost_lat + "," + singlePost_long + "&zoom=17&key=AIzaSyAAFLBcMG8LbY2CQdPpufS4yxYSAUYoVrE\"></iframe><div>");
+
+				divIterator++;
+			}
+			
+		}
+		// getcitydetails(location_metadata);
+	}
+
+	function displayFoodByLocation(obj) {
+
+		var aggregatePostsCount = obj['aggregatePostsCount'];
+		if(aggregatePostsCount === 0) {
+			$("#blogcontent").html("<div class=\"blogLocationClass\"><h3> Oops there are no posts. Please use different search </h3></div>");
+			return;
+		}
+
+		var postArray = obj['postArray'];
+		var postArrayLength = postArray.length;
+		if(aggregatePostsCount == 1) {
+			$("#blogcontent").html("<div class=\"blogLocationClass\"><h3> Found " + aggregatePostsCount + " post at " + postArray[0]['locationString']+"</h3></div>");
+		} else {
+			$("#blogcontent").html("<div class=\"blogLocationClass\"><h3> Found " + aggregatePostsCount + " posts at " + postArray[0]['locationString']+"</h3></div>");
+		}
+
+		var divIterator = 0;
+		for (var i = 0; i < postArrayLength; i++) {
+			var singlePost_foodJointName 	= postArray[i]['_id'];  //Ikes
+			var singlePost_posts 			= postArray[i]['foodPosts'];
+			var singlePost_likes    	= postArray[i]['likes'];
+			var singlePost_visitCount    	= postArray[i]['visitCount'];
+			for (var j = 0; j < singlePost_visitCount; j++) {
+				var contentDivId = "contentDiv" + divIterator;
+				var imageSrcId = "imageSrc" + divIterator;
+				var geocodeDivId = "geocodeDiv" + divIterator;
+				var mapDivId = "mapDiv" + divIterator;
+				$("#blogcontent").append("<div class=\"contentDivClass\" id=" + contentDivId + ">" + singlePost_posts[j]['food_text'] + "</div>");
+				$("#blogcontent").append("<div class=\"imageAndGeo\">\
+					<img class=\"imageSrcClass\" id=" + imageSrcId + " src=" + singlePost_posts[j]['foodImages'][0] + "></img>\
+					<div class=\"geocodeClass\" id=" + geocodeDivId + "></div>\
+				</div>");
+
+				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Food Joint Name : " + singlePost_foodJointName + "</div>");
+				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Likes : " + singlePost_likes + "</div>");
+				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Visit count: " + singlePost_visitCount + "</div>");
+				divIterator++;
+			}	
+		}		
 	}
 
 	jQuery("#f_elem_city").autocomplete({
