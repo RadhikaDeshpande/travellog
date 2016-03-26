@@ -89,6 +89,7 @@ $(document).ready(function(){
 					<div class=\"geocodeClass\" id=" + geocodeDivId + "></div>\
 				</div>");
 
+				$("#"+geocodeDivId).append("<div class=\"likeButton\"><a href=\"#\" class=\"btn btn-info\">"+ singlePost_posts[j]['viewCount'] + " <span class=\"glyphicon glyphicon-thumbs-up\"></span> Likes</a></div>");
 				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Location : " + singlePost_locMetaData['geobytesfqcn'] + "</div>");
 				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Latitude : " + singlePost_locMetaData['geobyteslatitude'] + "</div>");
 				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Longitude: " + singlePost_locMetaData['geobyteslongitude'] + "</div>");
@@ -97,7 +98,7 @@ $(document).ready(function(){
 				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Currency: " + singlePost_locMetaData['geobytescurrency'] + "</div>");
 				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Currency Code: " + singlePost_locMetaData['geobytescurrencycode'] + "</div>");
 				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Time Zone: " + singlePost_locMetaData['geobytestimezone'] + "</div>");
-				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Distance from your location: " + singlePost_distFromUser + "</div>");
+				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Distance from your location: " + parseInt(singlePost_distFromUser) + " miles</div>");
 				$("#"+geocodeDivId).append("<div class=\"mapClass\"><iframe class=\"mapIframeClass\" scrolling=\"yes\" src=\"https://www.google.com/maps/embed/v1/place?q=" + singlePost_lat + "," + singlePost_long + "&zoom=17&key=AIzaSyAAFLBcMG8LbY2CQdPpufS4yxYSAUYoVrE\"></iframe><div>");
 
 				divIterator++;
