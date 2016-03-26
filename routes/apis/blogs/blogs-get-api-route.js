@@ -12,7 +12,6 @@ var blogs = function() {
       res.send(JSON.stringify({ 'error' : 'q_case for /apis/blogs/ cant be null'})); 
       return;
     }
-
     q_case = req.query.q_case;
 
     switch(q_case) {
@@ -80,10 +79,7 @@ var blogs = function() {
     // Call the helper object 
     blogsApiHelperObj.searchBlogsByLocationName(req, res, location_name, function(returnMsg, retData) {
       if(returnMsg === 'success') {
-        //res.send(retData);
-        //console.log(retData);
-        res.send(JSON.stringify(retData));
-
+        res.send(retData);
       } else {
         res.send(JSON.stringify({ 'error' : 'DB Error for searchBlogsByLocationName for '  
                                   + location_name}));

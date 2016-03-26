@@ -476,6 +476,17 @@
     white-space: normal;
 }
 
+.locationtext {
+    /*float: left;*/
+    /*margin-top: 10%;*/
+    position:absolute;
+    margin-right: 10%;
+    margin-left: 12%;
+    top:120px;
+    bottom: 2px;
+}
+
+
 .viewsfoodtabbuttons {
     float: left;
     margin-left: 7%;
