@@ -178,8 +178,7 @@ $(document).ready(function(){
 	});
 
 
-	$('#myblogs').click(function() {
-		//http://localhost:3000/apis/blogs/?q_case=4&user_name=<%= user_id %> 
+	$('#myblogs').click(function() { 
     var email = $('#email_id').val();
 		$.ajax({
 			url: '/apis/blogs?q_case=4&user_name='+email,
@@ -235,9 +234,7 @@ $(document).ready(function(){
 		return false;
 	});
 
-	$('#viewblogsbytoptraveldestination').click(function() {
-		//http://localhost:3000/apis/blogs/?q_case=2&location_name= 
-    
+	$('#viewblogsbytoptraveldestination').click(function() {    
 		$.ajax({
 			url: '/apis/blogs?q_case=3',
 			type: 'GET',
@@ -247,9 +244,7 @@ $(document).ready(function(){
 			contentType: false,
 			processData: false,
 			success: function (returndata) {
-				//alert("Inside Ajax success of viewblogsbylocation - display the returndata");
 				displayTopTravelDestinations(returndata);
-			  //alert(returndata);
 			}
 		});
 
