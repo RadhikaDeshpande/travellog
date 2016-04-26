@@ -79,6 +79,7 @@ app.get('/forgotPwd', function(req,res) {
 });
 
 app.post('/forgotPwd', function(req,res) {
+  console.log(req.body);
   password_mgmt_obj.postForgotPwdAction(req, res);
 });
 

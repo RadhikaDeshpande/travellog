@@ -31,15 +31,17 @@
             <% } %> 
 
         	<form role="form" action="/login" method="post" id="loginform">
-	        		<div class="form-group">
+	          <div class="form-group">
 				  			<input type="email" id="email" name="email" value="" placeholder="Email" class="form-control" />
               </div>
               <div class="form-group">
 				  			<input type="password" id="password" name="password" value="" placeholder="Password" class="form-control" />
-				  		</div>
-				    	<div class="signupbutton"><button type="submit" id="signin" class="btn btn-block btn-lg btn-round">Login</button></div>
-				    	<div class="signupbutton"><button type="submit" href="#" class="btn btn-right btn-lg btn-round">Forgot Password?</button></div>
-					</form>
+			  </div>
+			  <div class="signupbutton"><button type="submit" id="signin" class="btn btn-block btn-lg btn-round">Login</button></div>
+			</form>
+            <form role="form" action="/forgotPwd" method="get" id="forgotPwdForm">
+            <div class="signupbutton"><button type="submit"  class="btn btn-right btn-lg btn-round">Forgot Password?</button></div>
+            </form>
 		    </div>
 	    </div>
 	    

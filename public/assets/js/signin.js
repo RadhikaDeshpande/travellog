@@ -8,7 +8,7 @@ $(document).ready(function() {
     $('#signup').click(function() {
     	signUpUser();
     });
-
+    
 });
 
 // LOGIN
@@ -33,7 +33,7 @@ function validateLoginUserData() {
     }
 
     if (!validator.isLength(password, 6, 25)) {
-        message = 'Password length is invalid';
+        message = 'Password length should be minimum 6';
         alert(message);
     }
 
