@@ -189,7 +189,7 @@ $(document).ready(function(){
 			contentType: false,
 			processData: false,
 			success: function (returndata) {
-				alert("Inside Ajax success of get my blogs - display the returndata");
+				displayMyBlogs(returndata);
 			  //alert(returndata);
 			}
 		});
@@ -529,6 +529,35 @@ $(document).ready(function(){
 				divIterator++;
 			}	
 		}		
+	}
+
+	function displayMyBlogs(obj) {
+
+		var aggregatePostsCount = obj['totalBlogCount'];
+		if(aggregatePostsCount === 0) {
+			$("#blogcontent").html("<div class=\"blogLocationClass\"><h3> Oops! No Posts found . Please use other search criteria. </h3></div>");
+			return;
+		}
+
+		var postArray = obj['blogs'];
+		var postArrayLength = postArray.length;
+
+		if(aggregatePostsCount == 1) {
+			$("#blogcontent").html("<div class=\"blogLocationClass\"><h3> There is  " + aggregatePostsCount + " post added by you.</h3></div>");
+		} else {
+			$("#blogcontent").html("<div class=\"blogLocationClass\"><h3> There are  " + aggregatePostsCount + " posts that are added by you</h3></div>");
+		}
+		
+		var divIterator = 0;
+		for (var i = 0; i < postArrayLength; i++) {
+				var contentDivId = "contentDiv" + divIterator;
+				var imageSrcId = "imageSrc" + divIterator;
+				var geocodeDivId = "geocodeDiv" + divIterator;
+
+				$("#blogcontent").append("<div class=\"imageAndGeo\">\
+					<img class=\"imageSrcClass\" id=" + imageSrcId + " src=" + obj['blogs'][i]['images'][0] + "></img></div>");
+				divIterator++;
+			}	
 	}
 
 	jQuery("#f_elem_city").autocomplete({

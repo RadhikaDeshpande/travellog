@@ -27,12 +27,18 @@
             <% if (message.length > 0) { %>
             <div class="row divtext"><%= message %></div>
             <% } %> 
-        	<h5>Forgot your password? Enter email id to receive login instructions</h5>
-	        	<form role="form" action="/forgotPwd" method="post" id="loginform">
+	        <form role="form" action="/resetPwd" method="post" id="loginform">
               <div class="form-group">
-				  			<input type="email" id="email" name="email" value="" placeholder="Email" class="form-control" />
+
+              <% if (user_id.length  > 0 ) { %>
+                <input type="hidden" name="email_id" value="<%= user_id %>">
+              <% } %>
+
+              <div class="form-group">
+                            <input type="password" id="password" name="password" value="" placeholder="Password" class="form-control" />
               </div>
-              <div class="signupbutton"><button type="submit" href="#" class="btn btn-block btn-lg btn-round">Send me reset instructions!</button></div>
+
+              <div class="signupbutton"><button type="submit" href="#" class="btn btn-block btn-lg btn-round">Reset Pwd</button></div>
 				</form>
 		    </div>
 	    </div>
