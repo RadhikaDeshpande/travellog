@@ -7,6 +7,16 @@ $(window).scroll(function(e) {
     
 });
 
+function likeButtonClick(likeButtonId) {
+	var likeClicked = $(likeButtonId).find(".likeClicked").text();
+	if (likeClicked === "0") {
+		var viewCount = parseInt($(likeButtonId).find(".viewcount").text());
+		var newViewCount = viewCount + 1;
+		$(likeButtonId).find(".viewcount").html(newViewCount + " ");
+		$(likeButtonId).find(".likeClicked").html("1");
+	}
+}
+
 $(document).ready(function(){
 	
 	$('#nearMe').click(function(event){
@@ -83,13 +93,14 @@ $(document).ready(function(){
 				var imageSrcId = "imageSrc" + divIterator;
 				var geocodeDivId = "geocodeDiv" + divIterator;
 				var mapDivId = "mapDiv" + divIterator;
+				var likeButtonId = "likeButton" + divIterator;
 				$("#blogcontent").append("<div class=\"contentDivClass\" id=" + contentDivId + ">" + singlePost_posts[j]['travel_text'] + "</div>");
 				$("#blogcontent").append("<div class=\"imageAndGeo\">\
 					<img class=\"imageSrcClass\" id=" + imageSrcId + " src=" + singlePost_posts[j]['images'][0] + "></img>\
 					<div class=\"geocodeClass\" id=" + geocodeDivId + "></div>\
 				</div>");
 
-				$("#"+geocodeDivId).append("<div class=\"likeButton\"><a href=\"#\" class=\"btn btn-info\">"+ singlePost_posts[j]['viewCount'] + " <span class=\"glyphicon glyphicon-thumbs-up\"></span> Likes</a></div>");
+				$("#"+geocodeDivId).append("<div class=\"likeButton\" id="+likeButtonId+" onclick=\"likeButtonClick("+ likeButtonId + ");\"><span class=\"btn btn-info\"><span class=\"likeClicked\" style=\"display:none;\">0</span><span class='viewcount'>"+ singlePost_posts[j]['viewCount'] + " </span><span class=\"glyphicon glyphicon-thumbs-up\"></span> Likes</span></div>");
 				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Location : " + singlePost_locMetaData['geobytesfqcn'] + "</div>");
 				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Latitude : " + singlePost_locMetaData['geobyteslatitude'] + "</div>");
 				$("#"+geocodeDivId).append("<div class=\"geoLine\"> Longitude: " + singlePost_locMetaData['geobyteslongitude'] + "</div>");
@@ -107,6 +118,7 @@ $(document).ready(function(){
 		}
 		// getcitydetails(location_metadata);
 	}
+
 
 	function displayPosition(position) {
 		var lati = position.coords.latitude;
