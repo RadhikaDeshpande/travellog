@@ -4,8 +4,6 @@ var email_validation = function() {
   var validateUserEmailControllerObj     = new emailValidationController();
 
   this.validateUserEmailAction = function(req, res) {
-    // Set the domain to genymotion if req is from emulator
-    domainHandler.setDomain(req);
     validateUserEmailControllerObj.validateUserEmailValidationLink(req, res);
   }
 
