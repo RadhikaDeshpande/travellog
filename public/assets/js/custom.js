@@ -542,6 +542,10 @@ $(document).ready(function(){
 		var postArray = obj['blogs'];
 		var postArrayLength = postArray.length;
 
+		console.log("postArray:");
+		console.log(postArray);
+		$("#blogapisdiv").html("");
+		// alert(JSON.stringify(postArray, null, 4));
 		if(aggregatePostsCount == 1) {
 			$("#blogcontent").html("<div class=\"blogLocationClass\"><h3> There is  " + aggregatePostsCount + " post added by you.</h3></div>");
 		} else {
@@ -555,7 +559,8 @@ $(document).ready(function(){
 				var geocodeDivId = "geocodeDiv" + divIterator;
 
 				$("#blogcontent").append("<div class=\"imageAndGeo\">\
-					<img class=\"imageSrcClass\" id=" + imageSrcId + " src=" + obj['blogs'][i]['images'][0] + "></img></div>");
+					 <div class=\"contentDivClass\" style=\"width:100%\">" + obj['blogs'][i]['locationString'] + "</div><br \>\
+					 <div><img class=\"imageSrcClass\" id=" + imageSrcId + " src=" + obj['blogs'][i]['images'][0] + "></img></div></div>");
 				divIterator++;
 			}	
 	}
